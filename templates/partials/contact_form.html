@@ -1,0 +1,14 @@
+<form class="contact-form"
+      hx-post="{% url 'contact_submit' %}"
+      hx-target="this"
+      hx-swap="outerHTML">
+  {% csrf_token %}
+  {{ contact_form.name }}
+  {% if contact_form.name.errors %}<div class="form-error">{{ contact_form.name.errors|striptags }}</div>{% endif %}
+  {{ contact_form.email }}
+  {% if contact_form.email.errors %}<div class="form-error">{{ contact_form.email.errors|striptags }}</div>{% endif %}
+  {{ contact_form.subject }}
+  {{ contact_form.body }}
+  {% if contact_form.body.errors %}<div class="form-error">{{ contact_form.body.errors|striptags }}</div>{% endif %}
+  <button type="submit">send message →</button>
+</form>

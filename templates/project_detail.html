@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} — {{ profile.full_name }}{% endblock %}
+{% block meta_description %}{{ project.subtitle|default:project.description|truncatechars:160 }}{% endblock %}
+
+{% block content %}
+
+<section class="project-detail-hero">
+  <div class="container">
+    <a href="{% url 'home' %}#projects" class="back-link">← back to projects</a>
+
+    <div class="project-meta" style="margin-top: 32px;">
+      ▣ {{ project.shipped_label }} — {{ project.get_category_display|upper }}{% if project.status == 'in_progress' %} — IN PROGRESS{% endif %}
+    </div>
+
+    <h1 class="project-detail-title">{{ project.title|lower }}.</h1>
+    {% if project.subtitle %}<p class="project-detail-subtitle">{{ project.subtitle }}</p>{% endif %}
+
+    {% if project.cover_image %}
+      <div class="project-detail-cover">
+        <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+      </div>
+    {% else %}
+      <div class="project-detail-cover project-preview {{ project.category }}">[ {{ project.title|lower }} ]</div>
+    {% endif %}
+
+    {% if project.tech_stack.all %}
+      <div class="project-tags" style="margin: 20px 0;">
+        <em>{% for tech in project.tech_stack.all %}{{ tech.name|lower }}{% if not forloop.last %} · {% endif %}{% endfor %}</em>
+      </div>
+    {% endif %}
+
+    <div class="project-links">
+      {% if project.live_url %}<a class="project-link" href="{{ project.live_url }}" target="_blank">→ live demo</a>{% endif %}
+      {% if project.github_url %}<a class="project-link" href="{{ project.github_url }}" target="_blank">→ github</a>{% endif %}
+      {% if project.demo_url %}<a class="project-link" href="{{ project.demo_url }}" target="_blank">→ video</a>{% endif %}
+    </div>
+
+    <article class="project-detail-body">
+      {{ detail_html|safe }}
+    </article>
+
+  </div>
+</section>
+
+<style>
+  .project-detail-hero { padding: 80px 0 100px; background: var(--paper); }
+  .back-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .back-link:hover { color: var(--gold-dark); }
+  .project-detail-title {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 600;
+    margin: 12px 0 6px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .project-detail-subtitle {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+  .project-detail-cover {
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 32px 0;
+    aspect-ratio: 16/9;
+  }
+  .project-detail-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .project-detail-body {
+    font-family: 'Instrument Serif', serif;
+    font-size: 19px;
+    line-height: 1.65;
+    margin-top: 40px;
+    max-width: 720px;
+  }
+  .project-detail-body h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--gold-dark);
+  }
+  .project-detail-body p { margin-bottom: 18px; }
+  .project-detail-body ul { margin: 18px 0 18px 24px; }
+  .project-detail-body li { margin-bottom: 6px; }
+  .project-detail-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+</style>
+
+{% endblock %}

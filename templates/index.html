@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="container-wide">
+
+    <div class="bismillah-line" data-reveal>
+      <div class="bismillah-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="bismillah-translation">in the name of Allah, the most gracious, the most merciful</div>
+    </div>
+
+    <div class="hero-content">
+      <div style="position: relative;" data-reveal>
+        <div class="photo-frame">
+          {% if profile.headshot %}
+            <img src="{{ profile.headshot.url }}" alt="{{ profile.full_name }}">
+          {% else %}
+            <span class="placeholder-text">[ headshot loading... ]</span>
+          {% endif %}
+          <div class="photo-corner-stamp">EST. 2004</div>
+        </div>
+        <div class="photo-meta">syed_abdullah_ahmed.jpg</div>
+      </div>
+
+      <div data-reveal>
+        <div class="hero-name-block">
+          <div class="hero-name-pre">// {{ profile.tagline }}</div>
+          <h1 class="hero-name">Syed Abdullah <em>Ahmed</em>.</h1>
+        </div>
+
+        <div class="hero-text">
+          {{ bio_short_html|safe }}
+          <div class="signature">— <em>{{ profile.short_name|lower }}</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-code" aria-hidden="true">
+      <div><span class="comment"># about.py</span></div>
+      <div><span class="key">name</span> = <span class="str">"abdullah"</span></div>
+      <div><span class="key">city</span> = <span class="str">"toronto"</span></div>
+      <div><span class="key">roots</span> = <span class="str">"lahore"</span></div>
+      <div><span class="key">always</span> = <span class="str">"alhamdulillah"</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ JOURNEY ============ -->
+<section class="journey" id="journey">
+  <div class="container-wide">
+    <h2 class="section-heading" data-reveal>three <em>cities</em>, one story.</h2>
+    <p class="section-sub" data-reveal>lahore. singapore. toronto. each one shaped me.</p>
+
+    <div class="map-container" data-reveal>
+      <svg class="map-svg" viewBox="0 0 1600 700" preserveAspectRatio="none">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="0.6" fill="#c9bea7"/>
+          </pattern>
+        </defs>
+        <rect width="1600" height="700" fill="url(#dots)" opacity="0.4"/>
+
+        {# Flight paths between cities #}
+        <path d="M 1000 360 Q 600 200 250 280 M 950 320 Q 990 360 1020 380"
+              stroke="#e8b923" stroke-width="2.5" fill="none" stroke-dasharray="6 6"/>
+
+        {# Stylized continent silhouettes #}
+        <path d="M 100 200 Q 200 180 300 220 Q 400 240 450 300 Q 400 380 300 400 Q 200 380 150 320 Z"
+              fill="#01411c" opacity="0.08"/>
+        <path d="M 750 150 Q 900 130 1100 180 Q 1200 250 1150 350 Q 1000 400 850 380 Q 750 320 720 230 Z"
+              fill="#01411c" opacity="0.1"/>
+        <path d="M 950 350 Q 1050 360 1100 410 Q 1080 460 1020 470 Q 970 440 950 400 Z"
+              fill="#01411c" opacity="0.08"/>
+
+        <text x="600" y="240" font-size="22" fill="#e8b923">✈</text>
+      </svg>
+
+      {% for city in cities %}
+        <div class="city-stamp {% if city.is_homeland %}homeland{% endif %}"
+             style="top: {{ city.map_y_pct }}%; left: {{ city.map_x_pct }}%;"
+             hx-get="{% url 'city_chapter' city.id %}"
+             hx-target="#city-chapter-target"
+             hx-swap="innerHTML"
+             role="button"
+             tabindex="0">
+          <div class="city-stamp-name">{{ city.name }}, {{ city.country_code }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="map-caption">click any stamp to read that chapter →</div>
+
+    <div id="city-chapter-target"></div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE — F1 ============ -->
+<section class="experience" id="work">
+  <div class="container-wide">
+    <h2 class="section-heading" data-reveal>the <em>race</em> so far.</h2>
+    <p class="section-sub" data-reveal>my career, mapped onto the marina bay circuit. (singapore — fitting, no?)</p>
+
+    <div class="track-toggle" data-reveal>
+      <button class="active" data-mode="track">◐ Track View</button>
+      <button data-mode="pov">◉ POV (drive)</button>
+    </div>
+
+    <div class="track-container" id="f1-track">
+      <div class="track-info">
+        ◉ MARINA BAY ST. CIRCUIT<br>
+        ◉ LAP {{ experiences|length }}/{{ experiences|length }} — CAREER<br>
+        ◉ LIVE: P1 ONTARIO MOT
+      </div>
+
+      <svg class="track-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
+        {# Outer dark track #}
+        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
+              id="trackPath"
+              fill="none" stroke="#444" stroke-width="50" stroke-linejoin="round"/>
+        {# Lighter inner #}
+        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
+              fill="none" stroke="#888" stroke-width="46" stroke-linejoin="round"/>
+        {# Center dashed line #}
+        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
+              fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="8 12" stroke-linejoin="round"/>
+
+        {# Checkerboard start/finish #}
+        <pattern id="checkerboard" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="#fff"/>
+          <rect x="10" y="10" width="10" height="10" fill="#fff"/>
+          <rect x="10" width="10" height="10" fill="#000"/>
+          <rect y="10" width="10" height="10" fill="#000"/>
+        </pattern>
+        <rect x="195" y="780" width="50" height="40" fill="url(#checkerboard)"/>
+        <text x="250" y="855" fill="#888" font-family="JetBrains Mono" font-size="11">START / FINISH</text>
+      </svg>
+
+      {% for exp in experiences %}
+        <div class="track-marker {% if exp.is_current %}active{% endif %}"
+             style="top: {{ exp.track_y_pct }}%; left: {{ exp.track_x_pct }}%;"
+             data-position="{{ exp.f1_position }}">
+          <div class="track-marker-label">P{{ exp.f1_position }} // {{ exp.company|truncatechars:18|upper }}</div>
+        </div>
+      {% endfor %}
+
+      <div class="f1-car" id="f1-car"></div>
+    </div>
+
+    <div class="pov-card" id="pov-card">
+      {% with exp=current_experience %}
+      <div class="pov-position">
+        <div class="pov-position-num">P{{ exp.f1_position }}</div>
+        <div class="pov-position-label">CURRENT</div>
+      </div>
+      <div>
+        <div class="pov-role">{{ exp.title }}</div>
+        <div class="pov-company">{{ exp.company }}</div>
+        <div class="pov-date">{{ exp.date_range|upper }}{% if exp.location %} // {{ exp.location|upper }}{% endif %}</div>
+        <div class="pov-text">{{ exp.description }}</div>
+      </div>
+      {% endwith %}
+    </div>
+
+    <div class="pov-controls" id="pov-controls" style="display:none;">
+      <button class="pov-btn" data-pov="prev">⬅ prev lap</button>
+      <button class="pov-btn active" data-pov="drive">drive ▶</button>
+      <button class="pov-btn" data-pov="next">next lap ➡</button>
+    </div>
+
+    {# Inject experience data for the F1 JS #}
+    <script id="experiences-data" type="application/json">
+      {% load experience_tags %}{% experiences_json experiences %}
+    </script>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="projects" id="projects">
+  <div class="container">
+    <h2 class="section-heading" data-reveal>things i've <em>shipped</em>.</h2>
+    <p class="section-sub" data-reveal>code i wrote that exists in the world.</p>
+
+    {% for project in projects %}
+      <div class="project-entry" data-reveal>
+        <div>
+          <div class="project-meta">
+            ▣ {{ project.shipped_label }} — {{ project.get_category_display|upper }}{% if project.status == 'in_progress' %} — IN PROGRESS{% endif %}
+          </div>
+          <h3 class="project-title">
+            <a class="project-title-link" href="{{ project.get_absolute_url }}">{{ project.title|lower }}.</a>
+          </h3>
+          {% if project.subtitle %}<p class="project-subtitle">{{ project.subtitle }}</p>{% endif %}
+          <p class="project-desc">{{ project.description }}</p>
+
+          {% if project.tech_stack.all %}
+            <div class="project-tags">
+              <em>{% for tech in project.tech_stack.all %}{{ tech.name|lower }}{% if not forloop.last %} · {% endif %}{% endfor %}</em>
+            </div>
+          {% endif %}
+
+          <div class="project-links">
+            {% if project.live_url %}<a class="project-link" href="{{ project.live_url }}" target="_blank">→ live demo</a>{% endif %}
+            {% if project.github_url %}<a class="project-link" href="{{ project.github_url }}" target="_blank">→ github</a>{% endif %}
+            {% if project.detail %}<a class="project-link" href="{{ project.get_absolute_url }}">→ read more</a>{% endif %}
+          </div>
+        </div>
+        <div class="project-preview {{ project.category }}">
+          {% if project.cover_image %}
+            <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
+          {% else %}
+            [ {{ project.title|lower }} preview ]
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ SKILLS — SCOREBOARD + STANDS ============ -->
+<section class="skills" id="skills">
+  <div class="container-wide">
+    <h2 class="section-heading" data-reveal>today's <em>lineup</em>.</h2>
+    <p class="section-sub" data-reveal>my stack, on the scoreboard. fans in the stands.</p>
+
+    <div class="scoreboard-large" data-reveal>
+      <div class="sb-stadium-header">
+        <div class="sb-stadium-title">◉ ABD STADIUM ◉</div>
+        <div class="sb-stadium-sub">SEASON 2025 // TECH LEAGUE</div>
+        <div class="sb-stadium-blink">● LIVE</div>
+      </div>
+
+      <div class="sb-grid">
+        <div class="sb-category">
+          <div class="sb-category-title">LANGUAGES</div>
+          {% for tech in tech_languages %}<div class="sb-skill">{{ tech.name|upper }}</div>{% endfor %}
+        </div>
+        <div class="sb-category">
+          <div class="sb-category-title">FRAMEWORKS</div>
+          {% for tech in tech_frameworks %}<div class="sb-skill">{{ tech.name|upper }}</div>{% endfor %}
+        </div>
+        <div class="sb-category">
+          <div class="sb-category-title">TOOLS / OPS</div>
+          {% for tech in tech_tools %}<div class="sb-skill">{{ tech.name|upper }}</div>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {# Animated fan stadium — populated by pixel-fans.js #}
+    <div class="stands-section" id="stands-section" data-reveal></div>
+  </div>
+</section>
+
+<!-- ============ AWARDS ============ -->
+<section class="awards" id="awards">
+  <div class="container">
+    <h2 class="section-heading" data-reveal>trophy <em>cabinet</em>.</h2>
+    <p class="section-sub" data-reveal>the wins, big and small.</p>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-content">
+      {% for award in awards %}<span class="ticker-item">{{ award.name|lower }}{% if award.description %} — {{ award.description|lower }}{% endif %}</span>{% endfor %}
+      {# Duplicate for seamless loop #}
+      {% for award in awards %}<span class="ticker-item">{{ award.name|lower }}{% if award.description %} — {{ award.description|lower }}{% endif %}</span>{% endfor %}
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="cabinet-grid">
+      {% for award in awards %}
+        <div class="cabinet-shelf" data-reveal>
+          <div class="cabinet-icon">{{ award.icon }}</div>
+          <div class="cabinet-name">{{ award.name }}</div>
+          <div class="cabinet-desc">{{ award.description|upper }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ME ============ -->
+<section class="about" id="about">
+  <div class="container-wide">
+    <h2 class="section-heading" data-reveal>about <em>me</em>.</h2>
+    <p class="section-sub" data-reveal>code, cricket, faith, and the bridge between them.</p>
+
+    <div class="about-grid">
+      <div class="about-prose" data-reveal>
+        {{ bio_long_html|safe }}
+
+        {% if profile.pull_quote %}
+          <div class="pull-quote">"{{ profile.pull_quote }}"</div>
+        {% endif %}
+      </div>
+
+      <div class="about-sidebar">
+        <div class="polaroid" data-reveal>
+          <div class="polaroid-pic">
+            {% if profile.polaroid_photo %}
+              <img src="{{ profile.polaroid_photo.url }}" alt="polaroid">
+            {% else %}
+              [ a photo of somewhere meaningful<br><br>(cricket pitch / makkah / lahore) ]
+            {% endif %}
+          </div>
+          <div class="polaroid-caption">{{ profile.polaroid_caption|default:"where it all began ✦" }}</div>
+        </div>
+
+        <div class="sticky-note" data-reveal>
+          <div class="sticky-note-title">current chapter</div>
+          <ul class="sticky-note-list">
+            <li class="done">ship squadhub v1</li>
+            <li class="done">finish 3rd year cs</li>
+            <li>build something with real impact</li>
+            <li>play more cricket (always)</li>
+            <li>read more, scroll less</li>
+          </ul>
+        </div>
+
+        {% if profile.verse_arabic %}
+          <div class="verse-card" data-reveal>
+            <div class="verse-arabic-large">{{ profile.verse_arabic }}</div>
+            <div class="verse-translation-card">"{{ profile.verse_translation }}"</div>
+            <div class="verse-reference">{{ profile.verse_reference }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEYOND CODE ============ -->
+<section class="beyond" id="beyond">
+  <div class="container">
+    <h2 class="section-heading" data-reveal>beyond the <em>code</em>.</h2>
+    <p class="section-sub" data-reveal>the things that keep me sane.</p>
+
+    <div class="beyond-grid">
+      <div data-reveal>
+        <div class="scoreboard-retro">
+          <div class="sb-header">CRICKET // CAREER SCORECARD</div>
+          <div class="sb-row"><span class="sb-label">PLAYER</span><span class="sb-value">S.A. AHMED</span></div>
+          <div class="sb-row"><span class="sb-label">ROLE</span><span class="sb-value">ALL-ROUNDER</span></div>
+          <div class="sb-row"><span class="sb-label">BAT</span><span class="sb-value">R.H.B.</span></div>
+          <div class="sb-row"><span class="sb-label">BOWL</span><span class="sb-value">R.A. OFFSPIN</span></div>
+          <div class="sb-row"><span class="sb-label">TEAMS</span><span class="sb-value">AITCHISON,TTS</span></div>
+          <div class="sb-row"><span class="sb-label">VS</span><span class="sb-value">PAK WOMEN XI</span></div>
+          <div class="sb-row"><span class="sb-label">CURRENT</span><span class="sb-value">YORK WEEKEND</span></div>
+        </div>
+        <p style="font-family: 'Caveat', cursive; font-size: 20px; margin-top: 16px; color: var(--ink-soft); text-align: center;">8+ years playing. forever a fan of pakistan. 🇵🇰</p>
+      </div>
+
+      <div class="movie-shelf" data-reveal>
+        <div class="movie-shelf-title">currently rewatching — <em>nolan, scorsese, marvel.</em></div>
+        <div class="movie-row">
+          {% for movie in movies %}
+            <div class="movie-poster {{ movie.poster_gradient }}">
+              <div class="title-tiny">{{ movie.title|upper }}</div>
+              <div class="rating-tiny">{% for i in "12345"|make_list %}{% if forloop.counter <= movie.rating %}★{% endif %}{% endfor %}</div>
+            </div>
+          {% endfor %}
+        </div>
+        <p style="margin-top: 14px; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 14px; opacity: 0.7;">also: marvel mcu, biopics, anything with a plot twist.</p>
+      </div>
+
+      <div class="f1-standings" data-reveal>
+        <div class="standings-title">my <em>F1 grid</em> — drivers i follow.</div>
+        <div class="standings-grid">
+          {% for d in drivers %}
+            <div class="standings-driver {{ d.team }}">
+              <div class="driver-num">#{{ d.number }}</div>
+              <div class="driver-name">{{ d.name }}</div>
+            </div>
+          {% endfor %}
+        </div>
+        <p style="margin-top: 14px; font-family: 'Caveat', cursive; font-size: 18px; color: var(--ink-soft);">also a soccer / tennis / basketball / baseball watcher.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 class="section-heading" data-reveal>let's <em>connect</em>.</h2>
+
+    <div class="contact-prose" data-reveal>
+      if you've made it this far — <em>jazak Allah khair</em>. i'd love to hear from you, whether it's about a role, a project, cricket, or just to say <span class="urdu">السلام علیکم</span>.
+    </div>
+
+    <form class="contact-form"
+          hx-post="{% url 'contact_submit' %}"
+          hx-target="this"
+          hx-swap="outerHTML"
+          data-reveal>
+      {% csrf_token %}
+      {{ contact_form.name }}
+      {{ contact_form.email }}
+      {{ contact_form.subject }}
+      {{ contact_form.body }}
+      <button type="submit">send message →</button>
+    </form>
+
+    <div class="contact-links">
+      {% if profile.email %}<a class="contact-link" href="mailto:{{ profile.email }}">→ email</a>{% endif %}
+      {% if profile.linkedin %}<a class="contact-link" href="{{ profile.linkedin }}" target="_blank">→ linkedin</a>{% endif %}
+      {% if profile.github %}<a class="contact-link" href="{{ profile.github }}" target="_blank">→ github</a>{% endif %}
+      {% if profile.resume %}<a class="contact-link" href="{{ profile.resume.url }}" target="_blank">→ download cv</a>{% endif %}
+    </div>
+
+    <div class="contact-closing">
+      <div>الحمد لله</div>
+      <div class="contact-closing-translation">alhamdulillah — all praise is to Allah.</div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

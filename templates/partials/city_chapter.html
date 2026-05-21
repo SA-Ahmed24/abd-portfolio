@@ -1,0 +1,6 @@
+<div class="city-chapter" data-city="{{ city.id }}">
+  <div class="city-chapter-title">{{ city.chapter_title|default:city.name }}</div>
+  <div class="city-chapter-body">
+    {{ body_html|safe }}
+  </div>
+</div>
