@@ -8,9 +8,44 @@ Personal portfolio site for **Syed Abdullah Ahmed**. Built with Django, faith, a
 
 ## Status
 
-**🚧 Currently building** — V3 wireframe approved, Django build in progress.
+**✅ Built and running locally.** Deploy step pending.
 
-See [`PLAN.md`](./PLAN.md) for the full architecture, sections, and build phases.
+- See [`PLAN.md`](./PLAN.md) for the architecture
+- See [`ADMIN_GUIDE.md`](./ADMIN_GUIDE.md) for how to edit content
+
+---
+
+## Run locally
+
+```bash
+# 1. Activate the virtualenv
+source venv/bin/activate
+
+# 2. Install deps (if not already)
+pip install -r requirements.txt
+
+# 3. Run migrations
+python manage.py migrate
+
+# 4. Seed initial content (resumes/projects/etc from your Info folder)
+python manage.py seed_content
+
+# 5. Start the server
+python manage.py runserver
+```
+
+Then open:
+- **Site:** http://localhost:8000
+- **Admin:** http://localhost:8000/admin/ (login: `abdullah` / `changeme123` — change this immediately)
+
+---
+
+## Deploy to Render (free tier)
+
+1. Connect your GitHub to https://render.com
+2. New → Blueprint → select this repo
+3. Render auto-detects `render.yaml`, builds, deploys.
+4. After first deploy, run `python manage.py createsuperuser` via the Render shell to set a real admin password.
 
 ---
 
