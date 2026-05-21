@@ -297,13 +297,31 @@ Building in phases (see TodoList in conversation). Mobile access via GitHub push
 - **Phase 14/15** — QA + code-review agents running in parallel
 - **Docs** — `ADMIN_GUIDE.md` for editing content via dashboard
 
-### 🔄 Final phase
-- **Phase 16** — Final polish based on QA / code-review findings, then deploy to Render
+### ✅ Phase 16 — DONE
+Polish from QA + code-review:
+- Postgres support via `dj-database-url`
+- `CSRF_TRUSTED_ORIGINS` for Render + custom domains
+- Production security headers (HSTS, SSL redirect, secure cookies, X-Frame-Options)
+- `prefetch_related('tech_stack')` to fix N+1
+- Idempotent `seed_content` (skips if data exists, `--force` to wipe)
+- Honeypot field on contact form + min-length validation
+- Safer `json_script` for F1 data injection
+- Guarded `current_experience` in template
+- Updated `render.yaml` with Postgres DB + proper gunicorn config
+- 9th award added (Care Foundation)
 
 ### Live at
 - **GitHub repo:** https://github.com/SA-Ahmed24/abd-portfolio
 - **Local dev:** http://localhost:8000
 - **Admin/CMS:** http://localhost:8000/admin/ (user: `abdullah` / pw: `changeme123`)
+
+### Deploy steps
+1. Visit https://render.com → New → Blueprint → select `abd-portfolio` repo
+2. Render auto-detects `render.yaml` and provisions: web service + free Postgres DB
+3. First deploy: `build.sh` runs migrations + seeds content
+4. Use Render shell to set a real admin password: `python manage.py changepassword abdullah`
+5. Site goes live at `https://abd-portfolio.onrender.com`
+6. (Optional) Buy a custom domain and point it via Render's Custom Domains tab
 
 ---
 
