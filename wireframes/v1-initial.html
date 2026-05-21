@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdullah Ahmed Portfolio - Wireframe Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #0a0a1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #16213e;
+    --gold: #d4af37;
+    --gold-light: #f0d060;
+    --emerald: #2ecc71;
+    --emerald-dark: #16a085;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0b0;
+    --accent: #d4af37;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+
+  .section-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4757;
+    color: white;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    z-index: 10;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .design-note {
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 3px solid var(--gold);
+    padding: 12px 16px;
+    margin: 15px 0;
+    font-size: 13px;
+    color: var(--gold-light);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #0d1b2a 100%);
+    overflow: hidden;
+    padding: 60px 20px;
+  }
+
+  .hero-pattern {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(212,175,55,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(46,204,113,0.05) 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .islamic-pattern-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  .bismillah {
+    font-family: 'Amiri', serif;
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    z-index: 1;
+    opacity: 0.9;
+  }
+  .bismillah-translation {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 50px;
+    z-index: 1;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    z-index: 1;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .hero-tagline {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+    z-index: 1;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: linear-gradient(135deg, var(--gold), var(--emerald-dark));
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  .btn-outline {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scroll-indicator span {
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  /* ===== ABOUT SECTION ===== */
+  .about {
+    position: relative;
+    padding: 100px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    background: var(--bg-secondary);
+  }
+
+  .about-image {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--bg-card), rgba(212,175,55,0.1));
+    border-radius: 16px;
+    border: 2px solid rgba(212,175,55,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-image::before {
+    content: '';
+    position: absolute;
+    top: -10px; right: -10px;
+    width: 80px; height: 80px;
+    border: 2px solid var(--gold);
+    border-radius: 0 16px 0 0;
+    opacity: 0.3;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .section-title span { color: var(--gold); }
+
+  .about-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(212,175,55,0.15);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .verse-card {
+    background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(46,204,113,0.05));
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .verse-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .verse-translation {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .verse-reference {
+    font-size: 11px;
+    color: var(--gold);
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  /* ===== EXPERIENCE - F1 GRID STYLE ===== */
+  .experience {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-primary);
+  }
+
+  .f1-grid {
+    margin-top: 40px;
+    position: relative;
+  }
+
+  .f1-track-line {
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--gold), var(--emerald), var(--gold));
+    border-radius: 2px;
+  }
+
+  .f1-entry {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    position: relative;
+    padding-left: 100px;
+  }
+
+  .f1-position {
+    position: absolute;
+    left: 40px;
+    width: 44px;
+    height: 44px;
+    background: var(--gold);
+    color: var(--bg-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    z-index: 2;
+  }
+
+  .f1-card {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(212,175,55,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .f1-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--gold), var(--emerald));
+  }
+
+  .f1-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .f1-company {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .f1-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .f1-details {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ===== PROJECTS - MOVIE POSTER STYLE ===== */
+  .projects {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-secondary);
+  }
+
+  .poster-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .poster-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(212,175,55,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .poster-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(212,175,55,0.15);
+  }
+
+  .poster-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #1a1a3e, #2a1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .poster-genre {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gold);
+    color: var(--bg-primary);
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .poster-icon {
+    font-size: 48px;
+    opacity: 0.3;
+  }
+
+  .poster-content {
+    padding: 24px;
+  }
+
+  .poster-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .poster-tagline {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .poster-cast {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .cast-tag {
+    background: rgba(212,175,55,0.1);
+    color: var(--gold);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .poster-links {
+    display: flex;
+    gap: 12px;
+  }
+
+  .poster-link {
+    font-size: 12px;
+    color: var(--emerald);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* ===== SKILLS - CRICKET SCORECARD STYLE ===== */
+  .skills {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-primary);
+  }
+
+  .scorecard {
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(212,175,55,0.15);
+    overflow: hidden;
+    margin-top: 40px;
+  }
+
+  .scorecard-header {
+    background: linear-gradient(135deg, var(--gold), var(--emerald-dark));
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .scorecard-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--bg-primary);
+  }
+
+  .scorecard-body {
+    padding: 24px;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .skill-name {
+    width: 140px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .skill-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    margin: 0 20px;
+    overflow: hidden;
+  }
+
+  .skill-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--emerald));
+  }
+
+  .skill-score {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--gold);
+    width: 40px;
+    text-align: right;
+  }
+
+  .tech-lineup {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  .tech-player {
+    background: var(--bg-card);
+    border: 1px solid rgba(212,175,55,0.1);
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
+    transition: border-color 0.3s;
+  }
+
+  .tech-player:hover {
+    border-color: var(--gold);
+  }
+
+  .tech-player-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 0.3;
+  }
+
+  .tech-player-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .tech-player-role {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* ===== AWARDS ===== */
+  .awards {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-secondary);
+  }
+
+  .trophy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .trophy-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid rgba(212,175,55,0.1);
+    transition: transform 0.3s;
+  }
+
+  .trophy-card:hover { transform: translateY(-4px); }
+
+  .trophy-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .trophy-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .trophy-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ===== BEYOND CODE (PASSIONS) ===== */
+  .passions {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-primary);
+  }
+
+  .passions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .passion-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(212,175,55,0.1);
+  }
+
+  .passion-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .passion-emoji { font-size: 28px; }
+
+  .passion-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .passion-content {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .cricket-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .cricket-stat {
+    background: rgba(212,175,55,0.05);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .cricket-stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .cricket-stat-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .movie-chip {
+    background: rgba(46,204,113,0.1);
+    color: var(--emerald);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ===== CONTACT ===== */
+  .contact {
+    position: relative;
+    padding: 100px 80px;
+    background: var(--bg-secondary);
+    text-align: center;
+  }
+
+  .contact-form {
+    max-width: 600px;
+    margin: 40px auto 0;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-input {
+    background: var(--bg-card);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+  }
+
+  .form-textarea {
+    background: var(--bg-card);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    height: 140px;
+    resize: none;
+    margin-bottom: 16px;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(212,175,55,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .social-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 40px 80px;
+    background: var(--bg-primary);
+    text-align: center;
+    border-top: 1px solid rgba(212,175,55,0.1);
+  }
+
+  .footer-verse {
+    font-family: 'Amiri', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  /* ===== PAGE HEADER ===== */
+  .mockup-banner {
+    background: linear-gradient(90deg, #ff4757, #ff6b81);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">WIREFRAME MOCKUP — Not Final Design — Colors, Fonts & Layout Preview</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">AA</div>
+  <ul class="nav-links">
+    <a href="#">About</a>
+    <a href="#">Experience</a>
+    <a href="#">Projects</a>
+    <a href="#">Skills</a>
+    <a href="#">Awards</a>
+    <a href="#">Beyond Code</a>
+    <a href="#">Contact</a>
+  </ul>
+  <button class="theme-toggle">☀</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="section-label">Section 1: Hero</span>
+  <div class="hero-pattern"></div>
+  <div class="islamic-pattern-overlay"></div>
+
+  <div class="bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+  <div class="bismillah-translation">In the name of God, the Most Gracious, the Most Merciful</div>
+
+  <h1 class="hero-name">Abdullah<br>Ahmed</h1>
+  <p class="hero-tagline">Software Engineer &bull; Builder &bull; Cricketer</p>
+
+  <div class="hero-cta">
+    <button class="btn-primary">VIEW MY WORK</button>
+    <button class="btn-outline">DOWNLOAD RESUME</button>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  <div class="design-note" style="position:absolute; bottom:80px; right:40px; max-width:300px;">
+    Animation: Name reveals letter-by-letter like movie credits. Islamic geometric particles float in background. Parallax scroll effect.
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <span class="section-label">Section 2: About Me</span>
+
+  <div class="about-image">
+    [ Your Headshot Photo Here ]<br><br>
+    <span style="font-size:11px; opacity:0.5">Islamic geometric frame border</span>
+  </div>
+
+  <div>
+    <h2 class="section-title">About <span>Me</span></h2>
+    <p class="about-text">
+      From the streets of Singapore to the cricket grounds of Lahore to the tech hubs of Toronto — my journey has been shaped by curiosity, community, and code.
+    </p>
+    <p class="about-text">
+      I'm a Computer Science student at York University, passionate about building technology that makes a real impact. Whether it's co-founding Rozgari to help daily-wage workers, developing backend systems at AletheaAI, or managing data pipelines for the Ontario Government — I bring the same energy I bring to the cricket field.
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1M</div>
+        <div class="stat-label">PKR Raised</div>
+      </div>
+    </div>
+
+    <div class="verse-card">
+      <div class="verse-arabic">وَمَكَرُوا وَمَكَرَ اللَّهُ ۖ وَاللَّهُ خَيْرُ الْمَاكِرِينَ</div>
+      <div class="verse-translation">"And they planned, and Allah planned. And Allah is the best of planners."</div>
+      <div class="verse-reference">— Surah Al-Imran 3:54</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE - F1 GRID STYLE -->
+<section class="experience">
+  <span class="section-label">Section 3: Experience — F1 Grid Style</span>
+  <h2 class="section-title">The <span>Race</span> So Far</h2>
+
+  <div class="design-note">Timeline styled like an F1 starting grid. Each role is a "position" on the grid. Scroll-triggered animation reveals each entry sequentially.</div>
+
+  <div class="f1-grid">
+    <div class="f1-track-line"></div>
+
+    <div class="f1-entry">
+      <div class="f1-position">P1</div>
+      <div class="f1-card">
+        <div class="f1-role">Junior Technical Analyst</div>
+        <div class="f1-company">Ministry of Transportation — Ontario Govt</div>
+        <div class="f1-date">Sept 2025 — Present</div>
+        <div class="f1-details">Django, Docker, MySQL. DevOps & DataOps. Containerized full-stack app. Streamlined workflows for 40+ member team.</div>
+      </div>
+    </div>
+
+    <div class="f1-entry">
+      <div class="f1-position">P2</div>
+      <div class="f1-card">
+        <div class="f1-role">Software Engineer Intern</div>
+        <div class="f1-company">AletheaAI — Singapore</div>
+        <div class="f1-date">May 2024 — Aug 2024</div>
+        <div class="f1-details">Django, FastAPI, backend. CRUD ops, API testing, blackbox testing on dApp. Code cleanup & optimization.</div>
+      </div>
+    </div>
+
+    <div class="f1-entry">
+      <div class="f1-position">P3</div>
+      <div class="f1-card">
+        <div class="f1-role">Developer Intern</div>
+        <div class="f1-company">Arbisoft — Lahore</div>
+        <div class="f1-date">Jun 2022 — Jul 2022</div>
+        <div class="f1-details">Collaborated with 20+ developers. Python, OOP. Fashion brand website features, AI-driven user preferences.</div>
+      </div>
+    </div>
+
+    <div class="f1-entry">
+      <div class="f1-position">P4</div>
+      <div class="f1-card">
+        <div class="f1-role">Co-Founder & CEO</div>
+        <div class="f1-company">Rozgari — Non-Profit Platform</div>
+        <div class="f1-date">May 2020 — Feb 2023</div>
+        <div class="f1-details">Connected daily-wage workers to clients. Raised 1M PKR. Built online & SMS booking platform. 25+ service providers onboarded.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS - MOVIE POSTER STYLE -->
+<section class="projects">
+  <span class="section-label">Section 4: Projects — Movie Poster Style</span>
+  <h2 class="section-title">Featured <span>Productions</span></h2>
+
+  <div class="design-note">Each project styled like a movie poster. Tech stack listed as "starring." Genre tags indicate project type. Hover reveals synopsis and links.</div>
+
+  <div class="poster-grid">
+    <div class="poster-card">
+      <div class="poster-image">
+        <span class="poster-genre">Full Stack</span>
+        <span class="poster-icon">🏏</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">SquadHub</div>
+        <div class="poster-tagline">A cricket club management platform for your weekend team. Match availability, squad selection, and season tracking.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">Django</span>
+          <span class="cast-tag">JavaScript</span>
+          <span class="cast-tag">AJAX</span>
+          <span class="cast-tag">HTML/CSS</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+          <a href="#" class="poster-link">Live Demo →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-image" style="background: linear-gradient(135deg, #1a2a3e, #0a1a2e);">
+        <span class="poster-genre">AI / Python</span>
+        <span class="poster-icon">🤖</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">Agent Twin</div>
+        <div class="poster-tagline">An AI-powered agent project built with Python. Exploring the frontier of autonomous AI systems.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">Python</span>
+          <span class="cast-tag">AI</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-image" style="background: linear-gradient(135deg, #2a1a2e, #1a0a2e);">
+        <span class="poster-genre">Full Stack</span>
+        <span class="poster-icon">🎬</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">Movie Review Site</div>
+        <div class="poster-tagline">A Django-powered movie review platform. Browse, rate, and review your favorite films.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">Django</span>
+          <span class="cast-tag">CSS</span>
+          <span class="cast-tag">SQLite</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-image" style="background: linear-gradient(135deg, #1a2e1a, #0a1e0a);">
+        <span class="poster-genre">Backend API</span>
+        <span class="poster-icon">📚</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">Library System</div>
+        <div class="poster-tagline">RESTful API for book management. CRUD operations with FastAPI and PostgreSQL.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">FastAPI</span>
+          <span class="cast-tag">PostgreSQL</span>
+          <span class="cast-tag">Pydantic</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-image" style="background: linear-gradient(135deg, #2e2a1a, #1e1a0a);">
+        <span class="poster-genre">Frontend</span>
+        <span class="poster-icon">🎮</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">GuessTheNum</div>
+        <div class="poster-tagline">Interactive number guessing game with three difficulty levels and themed gameplay.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">JavaScript</span>
+          <span class="cast-tag">HTML</span>
+          <span class="cast-tag">CSS</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+          <a href="#" class="poster-link">Play →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-image" style="background: linear-gradient(135deg, #1a1a3e, #2a0a2e);">
+        <span class="poster-genre">Backend API</span>
+        <span class="poster-icon">✅</span>
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">ToDo Reminders</div>
+        <div class="poster-tagline">High-performance task management API with SQLAlchemy and Pydantic validation.</div>
+        <div class="poster-cast">
+          <span class="cast-tag">FastAPI</span>
+          <span class="cast-tag">SQLAlchemy</span>
+          <span class="cast-tag">Pydantic</span>
+        </div>
+        <div class="poster-links">
+          <a href="#" class="poster-link">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS - CRICKET SCORECARD -->
+<section class="skills">
+  <span class="section-label">Section 5: Skills — Cricket Scorecard Style</span>
+  <h2 class="section-title">Technical <span>Scorecard</span></h2>
+
+  <div class="design-note">Skills displayed as a cricket scorecard — each skill has a "batting average" style proficiency bar. Below that, tech stack shown as a "team lineup" with jersey numbers.</div>
+
+  <div class="scorecard">
+    <div class="scorecard-header">
+      <div class="scorecard-title">ABDULLAH AHMED — BATTING CARD</div>
+      <div style="color: var(--bg-primary); font-size: 12px; font-weight: 600;">2025 SEASON</div>
+    </div>
+    <div class="scorecard-body">
+      <div class="skill-row">
+        <div class="skill-name">Python</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 90%"></div></div>
+        <div class="skill-score">90</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">Django</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 85%"></div></div>
+        <div class="skill-score">85</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 75%"></div></div>
+        <div class="skill-score">75</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">Java</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 70%"></div></div>
+        <div class="skill-score">70</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">SQL</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 80%"></div></div>
+        <div class="skill-score">80</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-name">Docker</div>
+        <div class="skill-bar-container"><div class="skill-bar" style="width: 65%"></div></div>
+        <div class="skill-score">65</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 40px; font-family: 'Playfair Display', serif; font-size: 24px;">The <span style="color: var(--gold);">Starting XI</span></h3>
+  <p style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">My tech stack lineup</p>
+
+  <div class="tech-lineup">
+    <div class="tech-player">
+      <div class="tech-player-number">#1</div>
+      <div class="tech-player-name">Python</div>
+      <div class="tech-player-role">Captain</div>
+    </div>
+    <div class="tech-player">
+      <div class="tech-player-number">#2</div>
+      <div class="tech-player-name">Django</div>
+      <div class="tech-player-role">All-Rounder</div>
+    </div>
+    <div class="tech-player">
+      <div class="tech-player-number">#3</div>
+      <div class="tech-player-name">FastAPI</div>
+      <div class="tech-player-role">Pace Bowler</div>
+    </div>
+    <div class="tech-player">
+      <div class="tech-player-number">#4</div>
+      <div class="tech-player-name">JavaScript</div>
+      <div class="tech-player-role">Opener</div>
+    </div>
+    <div class="tech-player">
+      <div class="tech-player-number">#5</div>
+      <div class="tech-player-name">Docker</div>
+      <div class="tech-player-role">Keeper</div>
+    </div>
+    <div class="tech-player">
+      <div class="tech-player-number">#6</div>
+      <div class="tech-player-name">SQL</div>
+      <div class="tech-player-role">Spinner</div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards">
+  <span class="section-label">Section 6: Awards & Achievements</span>
+  <h2 class="section-title">Trophy <span>Cabinet</span></h2>
+
+  <div class="trophy-grid">
+    <div class="trophy-card">
+      <div class="trophy-icon">🏆</div>
+      <div class="trophy-name">UNHack 2024</div>
+      <div class="trophy-desc">1st Place — Hackathon</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🥈</div>
+      <div class="trophy-name">Kangaroo CS</div>
+      <div class="trophy-desc">Silver Medal — 1st in Lahore, 4th in Pakistan</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🎖️</div>
+      <div class="trophy-name">Duke of Edinburgh</div>
+      <div class="trophy-desc">Bronze Medal — International Award</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🏅</div>
+      <div class="trophy-name">Lassonde Scholarship</div>
+      <div class="trophy-desc">York University Entrance Scholarship</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🎓</div>
+      <div class="trophy-name">Academic Blazer</div>
+      <div class="trophy-desc">IGCSE Certificate of Merit — Aitchison College</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🗣️</div>
+      <div class="trophy-name">MUN - Outstanding Diplomacy</div>
+      <div class="trophy-desc">Millennium International MUN — WHO Committee</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🔢</div>
+      <div class="trophy-name">Sigma LUMS</div>
+      <div class="trophy-desc">1st Place — Geometry & Math Proofs</div>
+    </div>
+    <div class="trophy-card">
+      <div class="trophy-icon">🏏</div>
+      <div class="trophy-name">Cricketer of the Year</div>
+      <div class="trophy-desc">Tanglin Trust School — Singapore, 2016</div>
+    </div>
+  </div>
+</section>
+
+<!-- BEYOND CODE -->
+<section class="passions">
+  <span class="section-label">Section 7: Beyond Code — Passions & Interests</span>
+  <h2 class="section-title">Beyond <span>Code</span></h2>
+
+  <div class="passions-grid">
+    <div class="passion-card">
+      <div class="passion-header">
+        <span class="passion-emoji">🏏</span>
+        <div class="passion-title">Cricket</div>
+      </div>
+      <div class="passion-content">
+        All-Rounder. Right-hand bat, right-arm off-spinner. From Aitchison College squad to weekend matches in Toronto. Cricket isn't just a sport — it's family, masala chai, and edge-of-the-seat finishes.
+      </div>
+      <div class="cricket-stats">
+        <div class="cricket-stat">
+          <div class="cricket-stat-val">8+</div>
+          <div class="cricket-stat-label">Years Playing</div>
+        </div>
+        <div class="cricket-stat">
+          <div class="cricket-stat-val">RHB</div>
+          <div class="cricket-stat-label">Batting</div>
+        </div>
+        <div class="cricket-stat">
+          <div class="cricket-stat-val">OB</div>
+          <div class="cricket-stat-label">Bowling</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="passion-card">
+      <div class="passion-header">
+        <span class="passion-emoji">🎬</span>
+        <div class="passion-title">Movies & TV</div>
+      </div>
+      <div class="passion-content">
+        From Nolan's mind-bending narratives to Marvel's universe-building. Biopics that inspire, thrillers that grip. If it tells a great story, I'm watching it.
+      </div>
+      <div class="movie-list">
+        <span class="movie-chip">The Dark Knight</span>
+        <span class="movie-chip">The Departed</span>
+        <span class="movie-chip">Interstellar</span>
+        <span class="movie-chip">Inception</span>
+        <span class="movie-chip">Marvel MCU</span>
+        <span class="movie-chip">Biopics</span>
+      </div>
+    </div>
+
+    <div class="passion-card">
+      <div class="passion-header">
+        <span class="passion-emoji">⚽</span>
+        <div class="passion-title">Sports Fan</div>
+      </div>
+      <div class="passion-content">
+        Beyond cricket — soccer runs with the boys, tennis on weekends, F1 race days, basketball highlights, and baseball in the summer. Sport keeps me grounded.
+      </div>
+      <div class="movie-list">
+        <span class="movie-chip">🏎️ F1</span>
+        <span class="movie-chip">⚽ Soccer</span>
+        <span class="movie-chip">🎾 Tennis</span>
+        <span class="movie-chip">🏀 Basketball</span>
+        <span class="movie-chip">⚾ Baseball</span>
+      </div>
+    </div>
+
+    <div class="passion-card">
+      <div class="passion-header">
+        <span class="passion-emoji">🤝</span>
+        <div class="passion-title">Community & Faith</div>
+      </div>
+      <div class="passion-content">
+        Events Executive at York MSA. VP Outreach for Muslims in STEM. From organizing career panels to charity drives — building bridges in the Muslim community on campus. Faith and community go hand in hand.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <span class="section-label">Section 8: Contact</span>
+  <h2 class="section-title">Let's <span>Connect</span></h2>
+  <p style="color: var(--text-secondary); margin-top: 12px; font-size: 16px;">Have an opportunity, question, or just want to say Assalamu Alaikum?</p>
+
+  <div class="contact-form">
+    <div class="form-row">
+      <input class="form-input" placeholder="Your Name" disabled>
+      <input class="form-input" placeholder="Your Email" disabled>
+    </div>
+    <input class="form-input" placeholder="Subject" style="margin-bottom: 16px; width: 100%;" disabled>
+    <textarea class="form-textarea" placeholder="Your Message..." disabled></textarea>
+    <button class="btn-primary" style="width: 100%;">SEND MESSAGE</button>
+  </div>
+
+  <div class="social-links">
+    <a href="#" class="social-link">in</a>
+    <a href="#" class="social-link">GH</a>
+    <a href="#" class="social-link">@</a>
+  </div>
+
+  <div class="verse-card" style="max-width: 500px; margin: 40px auto 0;">
+    <div class="verse-arabic">جزاك اللهُ خيرًا</div>
+    <div class="verse-translation">"May God reward you with goodness"</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-verse">الحمد لله</div>
+  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">All praise is due to God</div>
+  <div class="footer-text">© 2025 Abdullah Ahmed. Built with Django & faith.</div>
+</footer>
+
+</body>
+</html>
