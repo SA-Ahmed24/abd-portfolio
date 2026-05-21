@@ -26,7 +26,7 @@ def home(request):
     profile = Profile.get()
     cities = City.objects.all()
     experiences = Experience.objects.all()
-    projects = Project.objects.exclude(status='archived')
+    projects = Project.objects.exclude(status='archived').prefetch_related('tech_stack')
     tech_languages = Tech.objects.filter(category='language')
     tech_frameworks = Tech.objects.filter(category='framework')
     tech_tools = Tech.objects.filter(category='tool')

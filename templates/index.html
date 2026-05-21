@@ -151,18 +151,24 @@
     </div>
 
     <div class="pov-card" id="pov-card">
-      {% with exp=current_experience %}
-      <div class="pov-position">
-        <div class="pov-position-num">P{{ exp.f1_position }}</div>
-        <div class="pov-position-label">CURRENT</div>
-      </div>
-      <div>
-        <div class="pov-role">{{ exp.title }}</div>
-        <div class="pov-company">{{ exp.company }}</div>
-        <div class="pov-date">{{ exp.date_range|upper }}{% if exp.location %} // {{ exp.location|upper }}{% endif %}</div>
-        <div class="pov-text">{{ exp.description }}</div>
-      </div>
-      {% endwith %}
+      {% if current_experience %}
+        {% with exp=current_experience %}
+        <div class="pov-position">
+          <div class="pov-position-num">P{{ exp.f1_position }}</div>
+          <div class="pov-position-label">CURRENT</div>
+        </div>
+        <div>
+          <div class="pov-role">{{ exp.title }}</div>
+          <div class="pov-company">{{ exp.company }}</div>
+          <div class="pov-date">{{ exp.date_range|upper }}{% if exp.location %} // {{ exp.location|upper }}{% endif %}</div>
+          <div class="pov-text">{{ exp.description }}</div>
+        </div>
+        {% endwith %}
+      {% else %}
+        <div style="grid-column: 1 / -1; text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--ink-soft);">
+          ⏳ no current position set — visit /admin to mark one as `is_current`
+        </div>
+      {% endif %}
     </div>
 
     <div class="pov-controls" id="pov-controls" style="display:none;">
@@ -171,10 +177,10 @@
       <button class="pov-btn" data-pov="next">next lap ➡</button>
     </div>
 
-    {# Inject experience data for the F1 JS #}
-    <script id="experiences-data" type="application/json">
-      {% load experience_tags %}{% experiences_json experiences %}
-    </script>
+    {# Inject experience data for the F1 JS (safely escaped) #}
+    {% load experience_tags %}
+    {% experiences_data experiences as exp_data %}
+    {{ exp_data|json_script:"experiences-data" }}
   </div>
 </section>
 

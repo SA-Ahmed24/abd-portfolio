@@ -14,7 +14,27 @@ from core.models import (
 class Command(BaseCommand):
     help = 'Seed the database with Abdullah\'s real portfolio content'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            help='WIPE existing content and reseed. Without this, only seeds if tables are empty.',
+        )
+
     def handle(self, *args, **options):
+        force = options.get('force', False)
+
+        # Idempotency guard — skip if data already exists, unless --force
+        if not force and Project.objects.exists():
+            self.stdout.write(self.style.WARNING(
+                '⚠️ Content already exists. Re-run with --force to wipe and reseed.\n'
+                '   Otherwise, edit content via /admin/ to preserve your changes.'
+            ))
+            return
+
+        if force:
+            self.stdout.write(self.style.WARNING('⚠️ --force: wiping existing content...'))
+
         self.stdout.write('Seeding profile...')
         profile, _ = Profile.objects.update_or_create(
             pk=1,
@@ -286,6 +306,7 @@ class Command(BaseCommand):
             ('MUN Outstanding Diplomacy', 'Millennium Int\'l — WHO Committee', 2021, 'international', '🗣', 6),
             ('Sigma LUMS', '1st — Geometry & Math Proofs', 2021, 'national', '∑', 7),
             ('Cricketer of the Year', 'Tanglin Trust — Singapore', 2016, 'school', '🏏', 8),
+            ('Care Foundation', 'Outstanding Performance Award', 2019, 'school', '🤝', 9),
         ]
         for name, desc, year, level, icon, order in awards_data:
             Award.objects.create(name=name, description=desc, year=year, level=level, icon=icon, order=order)
