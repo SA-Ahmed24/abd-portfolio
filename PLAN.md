@@ -277,6 +277,34 @@ I can also generate placeholder demos / mock screenshots for any project where y
 
 Building in phases (see TodoList in conversation). Mobile access via GitHub push so user can monitor from phone Claude Code app.
 
+## 12. Build progress — May 22
+
+### ✅ Done
+- **Phase 0** — Django scaffold, settings, dependencies (`Django 5.1`, DRF, Jazzmin, HTMX, Pillow, whitenoise, gunicorn, psycopg2)
+- **Phase 1** — All 10 models, customized Jazzmin admin, `seed_content` management command with real data from Info folder
+- **Phase 2** — `base.html`, `nav.html`, `footer.html`, hero section with real headshot, bismillah, storytelling prose, signature, floating code snippet
+- **Phase 3** — Journey: SVG map with continents, 3 city passport stamps (Lahore in green/homeland), HTMX-powered chapter expand
+- **Phase 4** — F1 Marina Bay-shaped SVG track, 4 job markers (P1-P4), Track View + POV mode with animated car
+- **Phase 5** — Editorial release-log projects, project detail pages
+- **Phase 6** — Pixelated CRT scoreboard ("ABD STADIUM") + animated 3-row stadium stands with 28 pixel-art fans (5 teams: Pakistan Cricket, Blue Jays, Raptors, Liverpool, Federer) — recognizable by team merch, no labels, bouncing/waving animations
+- **Phase 7** — Trophy cabinet with award ticker + grid
+- **Phase 8** — About Me prose + polaroid + sticky note todo + verse card
+- **Phase 9** — Cricket scorecard + movie shelf + F1 standings grid
+- **Phase 10** — GSAP scroll reveal animations
+- **Phase 11** — Dark/light theme toggle with localStorage persistence
+- **Phase 12** — Responsive design (mobile/tablet breakpoints)
+- **Phase 13** — sitemap.xml, robots.txt, favicon, SEO meta tags, Render `render.yaml` + `build.sh`
+- **Phase 14/15** — QA + code-review agents running in parallel
+- **Docs** — `ADMIN_GUIDE.md` for editing content via dashboard
+
+### 🔄 Final phase
+- **Phase 16** — Final polish based on QA / code-review findings, then deploy to Render
+
+### Live at
+- **GitHub repo:** https://github.com/SA-Ahmed24/abd-portfolio
+- **Local dev:** http://localhost:8000
+- **Admin/CMS:** http://localhost:8000/admin/ (user: `abdullah` / pw: `changeme123`)
+
 ---
 
 *This document is the source of truth for the build. Updated as decisions are made.*
