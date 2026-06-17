@@ -202,6 +202,12 @@
           {% if project.subtitle %}<p class="project-subtitle">{{ project.subtitle }}</p>{% endif %}
           <p class="project-desc">{{ project.description }}</p>
 
+          {% if project.highlight_list %}
+            <ul class="project-highlights">
+              {% for h in project.highlight_list %}<li>{{ h }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+
           {% if project.tech_stack.all %}
             <div class="project-tags">
               <em>{% for tech in project.tech_stack.all %}{{ tech.name|lower }}{% if not forloop.last %} · {% endif %}{% endfor %}</em>
@@ -214,11 +220,34 @@
             {% if project.detail %}<a class="project-link" href="{{ project.get_absolute_url }}">→ read more</a>{% endif %}
           </div>
         </div>
-        <div class="project-preview {{ project.category }}">
-          {% if project.cover_image %}
+        <div class="project-preview {{ project.category }}{% if project.promo_video %} has-video{% endif %}">
+          {% if project.promo_video %}
+            <div class="trailer" data-trailer>
+              <div class="trailer__marquee">
+                <span class="reel">◉</span>
+                <span class="title">now showing — {{ project.title|lower }}</span>
+                <span class="tag">trailer</span>
+              </div>
+              <div class="trailer__screen">
+                <video class="trailer__video" src="{{ project.promo_video.url }}" autoplay muted loop playsinline preload="metadata"
+                       aria-label="{{ project.title }} promo video"></video>
+              </div>
+            </div>
+          {% elif project.cover_image %}
             <img src="{{ project.cover_image.url }}" alt="{{ project.title }}">
           {% else %}
-            [ {{ project.title|lower }} preview ]
+            <div class="preview-mock">
+              <div class="preview-bar"><span></span><span></span><span></span>
+                <em>{{ project.github_url|cut:"https://github.com/" }}</em>
+              </div>
+              <div class="preview-body">
+                <div class="preview-cat">{{ project.get_category_display|upper }}</div>
+                <div class="preview-name">{{ project.title|lower }}</div>
+                {% if project.tech_stack.all %}
+                  <div class="preview-tech">{% for tech in project.tech_stack.all|slice:":4" %}{{ tech.name|lower }}{% if not forloop.last %} · {% endif %}{% endfor %}</div>
+                {% endif %}
+              </div>
+            </div>
           {% endif %}
         </div>
       </div>
@@ -255,8 +284,12 @@
       </div>
     </div>
 
-    {# Animated fan stadium — populated by pixel-fans.js #}
-    <div class="stands-section" id="stands-section" data-reveal></div>
+    {# Live pixel-art crowd — rendered on canvas by pixel-fans.js #}
+    <div class="stands-frame" data-reveal>
+      <div class="stands-tag">◉ THE STANDS — A SOLD-OUT CROWD</div>
+      <canvas id="stands-canvas" role="img"
+              aria-label="A pixel-art stadium crowd of fans — Pakistan cricket, Toronto Blue Jays, Toronto Raptors, Liverpool, and Roger Federer supporters — waving flags, scarves and signs."></canvas>
+    </div>
   </div>
 </section>
 

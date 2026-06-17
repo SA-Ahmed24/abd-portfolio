@@ -155,6 +155,7 @@ class Project(models.Model):
     slug = models.SlugField(max_length=140, unique=True, blank=True)
     subtitle = models.CharField(max_length=200, blank=True, help_text='Italic tagline')
     description = models.TextField(help_text='Short prose description. Markdown supported.')
+    highlights = models.TextField(blank=True, help_text='Technical highlights — one bullet per line. Shown as a list in the project card.')
     detail = models.TextField(blank=True, help_text='Long-form case study on detail page. Markdown supported.')
 
     tech_stack = models.ManyToManyField(Tech, blank=True, related_name='projects')
@@ -164,6 +165,7 @@ class Project(models.Model):
     demo_url = models.URLField(blank=True, help_text='YouTube / video / live demo URL')
 
     cover_image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    promo_video = models.FileField(upload_to='projects/videos/', blank=True, null=True, help_text='Short AD-style promo (mp4). Shown in the project card slot.')
 
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='full-stack')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='shipped')
@@ -189,6 +191,11 @@ class Project(models.Model):
     @property
     def shipped_label(self):
         return self.shipped_date.strftime('%b %Y').upper()
+
+    @property
+    def highlight_list(self):
+        """Technical highlights as a list (one per non-empty line)."""
+        return [line.strip() for line in self.highlights.splitlines() if line.strip()]
 
 
 class Award(models.Model):

@@ -703,6 +703,33 @@ body::before {
   margin-bottom: 18px;
 }
 
+.project-highlights {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.project-highlights li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.project-highlights li::before {
+  content: '▹';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  color: var(--pak-green);
+  font-size: 12px;
+}
+
+[data-theme="dark"] .project-highlights li::before { color: var(--gold); }
+
 .project-tags {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -742,10 +769,195 @@ body::before {
   font-size: 10px;
   letter-spacing: 1px;
   text-align: center;
-  padding: 20px;
 }
 
 .project-preview img { width: 100%; height: 100%; object-fit: cover; }
+.project-preview video { width: 100%; height: 100%; object-fit: cover; display: block; background: #14110d; }
+
+/* ================= MOVIE-TRAILER VIDEO PLAYER ================= */
+.project-preview.has-video { padding: 0; background: #0b0908; border-color: var(--ink); }
+
+.trailer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0b0908;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* marquee header — "now showing" */
+.trailer__marquee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: linear-gradient(180deg, #1a1410, #120d0a);
+  border-bottom: 1px solid rgba(232,185,35,0.35);
+  color: var(--gold);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.trailer__marquee .reel { color: var(--gold); animation: reel-spin 3s linear infinite; }
+@keyframes reel-spin { to { transform: rotate(360deg); } }
+.trailer__marquee .title { color: #f3ead2; text-overflow: ellipsis; overflow: hidden; flex: 1; }
+.trailer__marquee .tag {
+  margin-left: auto; color: #0b0908; background: var(--gold);
+  padding: 1px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 1px;
+}
+
+/* the screen */
+.trailer__screen { position: relative; flex: 1; overflow: hidden; cursor: pointer; min-height: 0; background:#0b0908; }
+.trailer__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.trailer__vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(0,0,0,0.55);
+  background: linear-gradient(180deg, rgba(0,0,0,0.10), transparent 18%, transparent 82%, rgba(0,0,0,0.25));
+}
+/* faint film perforations down the sides */
+.trailer__screen::before, .trailer__screen::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 10px; z-index: 2; pointer-events: none;
+  background-image: repeating-linear-gradient(180deg, rgba(255,255,255,0.16) 0 6px, transparent 6px 14px);
+  opacity: 0.5;
+}
+.trailer__screen::before { left: 0; } .trailer__screen::after { right: 0; }
+
+/* center play button (shown when paused) */
+.trailer__big {
+  position: absolute; inset: 0; z-index: 3; margin: auto;
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232,185,35,0.92); color: #0b0908; border: none; cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.5); transition: transform 0.18s, opacity 0.2s;
+}
+.trailer__big:hover { transform: scale(1.08); }
+.trailer__big svg { width: 26px; height: 26px; margin-left: 3px; }
+.trailer.is-playing .trailer__big { opacity: 0; pointer-events: none; }
+
+/* controls bar */
+.trailer__controls {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 11px; background: #0d0a08; border-top: 1px solid rgba(232,185,35,0.25);
+}
+.trailer__btn {
+  background: none; border: none; color: #e9dfc8; cursor: pointer; padding: 0;
+  width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex: none;
+}
+.trailer__btn svg { width: 16px; height: 16px; fill: currentColor; }
+.trailer__btn:hover { color: var(--gold); }
+.trailer__scrub {
+  flex: 1; height: 5px; background: rgba(255,255,255,0.18); border-radius: 3px;
+  position: relative; cursor: pointer; min-width: 30px;
+}
+.trailer__fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--gold); border-radius: 3px; }
+.trailer__fill::after {
+  content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--gold);
+}
+.trailer__time { color: #b7ad97; font-size: 10px; letter-spacing: 0.5px; flex: none; font-variant-numeric: tabular-nums; }
+
+/* expand modal — fills ~3/4 of the screen, backdrop still partly visible */
+.trailer-modal {
+  position: fixed; inset: 0; z-index: 9999; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(8,6,4,0.62); backdrop-filter: blur(3px);
+}
+.trailer-modal.is-open { display: flex; }
+.trailer-modal__inner {
+  width: 76vw; height: 76vh; max-width: 1300px;
+  border: 3px solid var(--gold); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.7); background: #0b0908;
+}
+.trailer-modal__inner .trailer__video { object-fit: contain; background:#000; }
+.trailer-modal__close {
+  position: absolute; top: 4vh; right: 5vw; z-index: 10000;
+  width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--gold);
+  background: rgba(11,9,8,0.85); color: var(--gold); font-size: 20px; cursor: pointer; line-height: 1;
+}
+.trailer-modal__close:hover { background: var(--gold); color: #0b0908; }
+body.trailer-open { overflow: hidden; }
+
+@media (max-width: 700px) {
+  .trailer-modal__inner { width: 94vw; height: 64vh; }
+  .trailer__marquee { font-size: 8px; }
+}
+
+/* Faux app-window placeholder shown until a real screenshot is uploaded */
+.preview-mock {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.preview-bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.preview-bar span:nth-child(1) { background: #ff5f56; }
+.preview-bar span:nth-child(2) { background: #ffbd2e; }
+.preview-bar span:nth-child(3) { background: #27c93f; }
+
+.preview-bar em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+.preview-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: left;
+}
+
+.preview-cat {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.preview-name {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.preview-tech {
+  font-size: 11px;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
 
 .project-preview.cricket { background: linear-gradient(135deg, #1a3a1a 0%, #2a5a2a 50%, #1a3a1a 100%); }
 .project-preview.movie { background: linear-gradient(135deg, #2a1a3a 0%, #4a2a5a 100%); }
@@ -858,74 +1070,41 @@ body::before {
   color: #ffd84e;
 }
 
-/* The stadium stands — full pixelated crowd below scoreboard */
-.stands-section {
-  margin-top: 40px;
-  background: linear-gradient(180deg, #2a1a08 0%, #1a1108 100%);
+/* The stadium stands — a live pixel-art crowd rendered on <canvas> */
+.stands-frame {
+  margin-top: 38px;
   border: 4px solid var(--ink);
-  border-radius: 8px;
-  padding: 40px 24px 30px;
-  position: relative;
-  overflow: hidden;
+  border-radius: 10px;
   box-shadow: 8px 8px 0 var(--ink);
+  overflow: hidden;
+  position: relative;
+  background: #0a1a2a;
+  line-height: 0;
 }
 
-.stands-section::before {
-  /* Concrete pillars - stadium architecture */
-  content: '';
+.stands-frame canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.stands-tag {
   position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0 2px, transparent 2px 80px),
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0 1px, transparent 1px 14px);
+  top: 10px;
+  left: 14px;
+  z-index: 2;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  text-shadow: 1px 1px 0 #000;
   pointer-events: none;
 }
 
-.stands-row {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  gap: 8px;
-  position: relative;
-  z-index: 2;
-  flex-wrap: wrap;
-}
-
-.stands-row + .stands-row {
-  margin-top: 20px;
-}
-
-.fan-canvas {
-  display: grid;
-  grid-template-columns: repeat(16, 6px);
-  grid-template-rows: repeat(22, 6px);
-  gap: 0;
-  image-rendering: pixelated;
-  position: relative;
-}
-
-.fan-canvas div { width: 6px; height: 6px; }
-
-.fan-wrap {
-  display: inline-block;
-  transform-origin: bottom center;
-}
-
-/* Animation classes - applied via JS */
-.fan-bounce { animation: fan-bounce 1.2s ease-in-out infinite; }
-.fan-bounce-2 { animation: fan-bounce 1.6s ease-in-out infinite 0.3s; }
-.fan-bounce-3 { animation: fan-bounce 1s ease-in-out infinite 0.6s; }
-.fan-wave { animation: fan-wave 1.4s ease-in-out infinite; transform-origin: bottom center; }
-.fan-wave-2 { animation: fan-wave 1.8s ease-in-out infinite 0.4s; }
-
-@keyframes fan-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes fan-wave {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+@media (max-width: 600px) {
+  .stands-tag { font-size: 6px; top: 8px; left: 10px; }
 }
 
 /* ====================== AWARDS ====================== */

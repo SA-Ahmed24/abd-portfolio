@@ -60,7 +60,7 @@ class ProjectAdmin(admin.ModelAdmin):
     filter_horizontal = ('tech_stack',)
     fieldsets = (
         ('Core', {'fields': ('title', 'slug', 'subtitle', 'category', 'status', 'featured', 'shipped_date', 'order')}),
-        ('Content', {'fields': ('description', 'detail', 'cover_image', 'tech_stack')}),
+        ('Content', {'fields': ('description', 'highlights', 'detail', 'cover_image', 'promo_video', 'tech_stack')}),
         ('Links', {'fields': ('github_url', 'live_url', 'demo_url')}),
     )
 

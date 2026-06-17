@@ -198,102 +198,232 @@ class Command(BaseCommand):
 
         self.stdout.write('Seeding projects...')
         Project.objects.all().delete()
+
+        agent_twin = Project.objects.create(
+            title='Agent Twin',
+            slug='agent-twin',
+            subtitle='an ai version of me — it learns my voice, remembers my story, and writes as me.',
+            description=(
+                "an ai \"twin\" that learns how i write and what i've done, then generates content in my voice — "
+                "resumes, cover letters, linkedin posts, emails. it runs on django + a rest api, with google gemini "
+                "doing the reasoning and a memory layer that extracts and recalls my experiences. it can even clone "
+                "my voice, so a recruiter can have a conversation with a version of me."
+            ),
+            highlights=(
+                "django rest framework backend with a structured memory model — writing style, experiences, personal facts, documents\n"
+                "google gemini for style analysis + content generation, grounded in retrieved memories (rag-style prompting)\n"
+                "writing-style engine that extracts tone, sentence length, vocabulary and signature phrases from my own samples\n"
+                "multimodal ingest — parses pdfs, images and audio (pypdf2, pydub) into structured memories with confidence scores\n"
+                "voice cloning via elevenlabs + a shareable public voice-agent link for recruiters"
+            ),
+            detail=(
+                "## the idea\n\n"
+                "applying to things means writing the same stuff over and over — tailoring a resume, a cover letter, a "
+                "linkedin post — and trying to keep it sounding like *you*. i wanted an ai that actually knows me: my "
+                "projects, my roles, the way i write, and can draft any of it on demand in my own voice.\n\n"
+                "## how it works\n\n"
+                "agent twin has three layers:\n\n"
+                "- **memory** — a django data model that stores writing-style signals, experiences, personal facts "
+                "(each with a confidence score), and whole documents.\n"
+                "- **reasoning** — google gemini analyses my uploaded samples to learn my style, then generates new "
+                "content grounded in whichever memories are relevant to the request.\n"
+                "- **voice** — an elevenlabs voice clone plus a shareable public link, so someone can literally have a "
+                "voice conversation with a version of me.\n\n"
+                "## what i built\n\n"
+                "- a django rest framework api with token auth and a clean serializer layer\n"
+                "- a writing-style extractor (average sentence length, formality, vocabulary, signature phrases)\n"
+                "- a memory extractor + retriever — new facts get pulled out of conversations and documents "
+                "automatically, then recalled when they're relevant\n"
+                "- multimodal document ingest: pdf / image / audio → structured memory\n"
+                "- a voice agent with an animated waveform and public share tokens\n\n"
+                "## why it matters to me\n\n"
+                "it's the project i'm most excited about — it sits right where ai, product, and the kind of tool i'd "
+                "actually want to build a company around all meet."
+            ),
+            category='ai',
+            status='in_progress',
+            featured=True,
+            shipped_date=date(2025, 11, 1),
+            github_url='https://github.com/SA-Ahmed24/Agent-Twin',
+            order=1,
+        )
+        agent_twin.tech_stack.set([tech_objs['Python'], tech_objs['Django'], tech_objs['Django REST Framework'], tech_objs['JavaScript']])
+
+        rentez = Project.objects.create(
+            title='RentEz',
+            slug='rentez',
+            subtitle='a landlord–tenant review platform — screen tenants before a bad one costs you thousands.',
+            description=(
+                "a team build i contributed to. rentez lets landlords review and screen tenants so they don't get "
+                "burned by a bad one — multi-criteria star ratings backed by credit and bankruptcy data, lease and "
+                "evidence uploads, search and filter, and email outreach to tenants in good standing. i built the "
+                "tenant-creation flow and fixed bugs across the app."
+            ),
+            highlights=(
+                "full-stack react 18 + node + postgresql (migrated off mongodb), with auth0 / jwt auth\n"
+                "my contribution: the tenant-creation flow + bug fixes (≈190 lines across 7 files)\n"
+                "multi-criteria tenant reviews — payments, lease completion, communication, property care, disputes\n"
+                "file uploads for leases & evidence, instant search/filter, and email outreach campaigns\n"
+                "built as a team, aimed at a real problem: evictions + bad tenants cost landlords ~$18b a year"
+            ),
+            detail=(
+                "## the idea\n\n"
+                "a single bad tenant costs a landlord ~$5,000 on average — unpaid rent, damage, legal fees — and the "
+                "u.s. sees ~3.6 million evictions filed a year. that's an ~$18b annual problem. rentez gives landlords "
+                "a way to screen tenants *before* signing, and to surface good tenants for outreach.\n\n"
+                "## what it does\n\n"
+                "- landlords create tenant profiles and leave **multi-criteria reviews** (on-time payments, lease "
+                "completion, communication, property care, legal disputes)\n"
+                "- reviews are backed by **credit score + bankruptcy** signals for a fuller picture\n"
+                "- **file uploads** for lease agreements and evidence (images, video, pdf)\n"
+                "- **search & filter** by name, rating and location\n"
+                "- **email outreach** campaigns to tenants in good standing\n\n"
+                "## what i built\n\n"
+                "- the **tenant-creation flow** — adding tenants with contact info and handling the already-exists case\n"
+                "- bug fixes across the app (≈190 lines over 7 files)\n\n"
+                "## stack\n\n"
+                "react 18 · node · postgresql (migrated from mongodb) · auth0 / jwt · tailwind"
+            ),
+            category='full-stack',
+            status='shipped',
+            featured=True,
+            shipped_date=date(2025, 2, 1),
+            github_url='https://github.com/MiodragMTasic/RentEZ',
+            order=2,
+        )
+        rentez.tech_stack.set([tech_objs['JavaScript'], tech_objs['SQL'], tech_objs['HTML / CSS']])
+
         squadhub = Project.objects.create(
             title='SquadHub',
             slug='squadhub',
             subtitle='the cricket club management app, built for my weekend team.',
             description=(
-                "a full-stack django app for managing my weekend cricket team. "
-                "role-based auth for captains and players. ajax-enabled dashboards "
-                "for fixture scheduling, player availability, and squad selection. "
-                "built because every cricket team i've played for has used a whatsapp group as a database — "
-                "and that needed to change."
+                "a full-stack django app that runs an actual cricket club — players, seasons, fixtures, availability "
+                "and squad selection, with role-based access for captains vs players. built because every team i've "
+                "played for has used a whatsapp group as a database, and that needed to change."
+            ),
+            highlights=(
+                "models the whole season in the django orm — players, seasons, fixtures, availability, squad selections\n"
+                "role-based access: captains manage fixtures and pick squads; players sign up and set availability\n"
+                "business logic that enforces a single active season, auto-creates per-player stats, and bulk-inserts them\n"
+                "monthly availability deadlines with live open / approaching / locked / passed states\n"
+                "account-approval flow — new players are reviewed and activated by the captain before they can log in"
             ),
             detail=(
                 "## the problem\n\n"
-                "every weekend cricket team i've played for has been managed via a whatsapp group. "
-                "you'd get 15 random messages about availability, the captain would lose track of who confirmed, "
-                "and we'd show up with 8 players or 14.\n\n"
+                "every weekend cricket team i've played for has been \"managed\" through a whatsapp group. availability "
+                "is 15 scattered messages, the captain loses track of who's in, and you show up with 8 players or 14.\n\n"
                 "## the solution\n\n"
-                "squadhub is a django app where captains create matches, players RSVP, and the squad is "
-                "selected with a clean UI instead of scrolling through chat history.\n\n"
+                "squadhub is a django app where the club lives in a real database. captains create seasons and fixtures, "
+                "players mark their availability before a deadline, and the squad gets picked in a proper ui instead of "
+                "scrolling chat history.\n\n"
                 "## what i built\n\n"
-                "- role-based auth (captains vs players)\n"
-                "- match/fixture creation with date, opponent, venue\n"
-                "- player availability dashboard with ajax check-ins\n"
-                "- squad selection tool — drag the available players into the playing XI\n"
-                "- season stats aggregation\n\n"
+                "- a full season data model — players, roles, seasons, fixtures, availability, squad selections\n"
+                "- role-based auth: captains get a control panel, players get a personal availability view\n"
+                "- season management with validation (only one active season at a time) that auto-creates a stats row "
+                "for every active player when a season starts\n"
+                "- monthly deadlines with live status — open → approaching → locked → deadline passed\n"
+                "- a player sign-up + captain-approval workflow before accounts go live\n\n"
                 "## stack\n\n"
-                "django · postgresql · htmx · vanilla js · css custom properties"
+                "django 5 · the django orm · sqlite / postgres · html / css / vanilla js"
             ),
             category='full-stack',
-            status='in_progress',
+            status='shipped',
             featured=True,
             shipped_date=date(2025, 11, 1),
             github_url='https://github.com/SA-Ahmed24/York-Cricket-Club-App',
-            order=1,
-        )
-        squadhub.tech_stack.set([tech_objs['Python'], tech_objs['Django'], tech_objs['JavaScript'], tech_objs['HTMX'], tech_objs['HTML / CSS'], tech_objs['SQL']])
-
-        agent_twin = Project.objects.create(
-            title='Agent Twin',
-            slug='agent-twin',
-            subtitle='an autonomous ai agent project.',
-            description="an exploration into agent-based ai systems. built in python. (more detail coming as this matures.)",
-            category='ai',
-            status='in_progress',
-            featured=True,
-            shipped_date=date(2025, 11, 15),
-            github_url='https://github.com/SA-Ahmed24/Agent-Twin',
-            order=2,
-        )
-        agent_twin.tech_stack.set([tech_objs['Python']])
-
-        library = Project.objects.create(
-            title='Library Management System',
-            slug='library-management-system',
-            subtitle='a clean, restful book-management api.',
-            description=(
-                "crud operations for books. designed with fastapi for high-performance routing and pydantic "
-                "for type-safe data validation. used RealDictCursor for optimized sql query performance. "
-                "search-by-id and search-by-title endpoints."
-            ),
-            category='backend',
-            featured=True,
-            shipped_date=date(2024, 6, 1),
-            github_url='https://github.com/SA-Ahmed24/Library-Management-System',
             order=3,
         )
-        library.tech_stack.set([tech_objs['Python'], tech_objs['FastAPI'], tech_objs['Pydantic'], tech_objs['SQL']])
+        squadhub.tech_stack.set([tech_objs['Python'], tech_objs['Django'], tech_objs['JavaScript'], tech_objs['HTML / CSS'], tech_objs['SQL']])
 
         movie_site = Project.objects.create(
             title='Movie Review Site',
             slug='movie-review-site',
             subtitle='a letterboxd-lite, built in django.',
             description=(
-                "browse, rate, and review movies. user accounts, comment threads, watchlists. "
-                "built for myself, because i kept losing track of what nolan film i was going to rewatch next."
+                "browse, rate and review movies, with user accounts and profiles. full crud, poster uploads, "
+                "tag-based search with pagination, and a voting system on reviews. built for myself, because i kept "
+                "losing track of which nolan film i was going to rewatch next."
+            ),
+            highlights=(
+                "custom user profiles created automatically via django signals, on top of django auth\n"
+                "movies, reviews and tags modelled with uuid primary keys and many-to-many tagging\n"
+                "review voting (up/down) that aggregates into a vote ratio per movie\n"
+                "catalogue search with pagination, plus image uploads for posters\n"
+                "full crud with ownership checks so users can only edit their own content"
+            ),
+            detail=(
+                "## the idea\n\n"
+                "i watch a lot of film — nolan, scorsese, the mcu — and i wanted my own little letterboxd to track "
+                "and review what i'd seen.\n\n"
+                "## what i built\n\n"
+                "- user accounts with profiles created automatically through django signals\n"
+                "- a movie catalogue with poster uploads, descriptions, trailer links and tags\n"
+                "- reviews with an up/down vote system that rolls up into a per-movie vote ratio\n"
+                "- search across the catalogue with pagination\n"
+                "- full create / read / update / delete, scoped so people can only edit their own movies and reviews\n\n"
+                "## stack\n\n"
+                "django · the django orm · uuid keys · html / css / js · sqlite"
             ),
             category='full-stack',
+            status='shipped',
             featured=True,
-            shipped_date=date(2024, 4, 1),
+            shipped_date=date(2024, 7, 1),
             github_url='https://github.com/SA-Ahmed24/DjangoProject-MovieReviewSite',
             order=4,
         )
         movie_site.tech_stack.set([tech_objs['Python'], tech_objs['Django'], tech_objs['HTML / CSS'], tech_objs['SQL']])
 
-        todo = Project.objects.create(
-            title='ToDo Reminders',
-            slug='todo-reminders',
-            subtitle='high-performance task management api.',
-            description='task management API with fastapi and SQLAlchemy. pydantic validation.',
-            category='backend',
+        nutrisci = Project.objects.create(
+            title='NutriSci',
+            slug='nutrisci',
+            subtitle='a nutrition tracker, built with my team for york’s software design course.',
+            description=(
+                "a java application for tracking diet and nutrition, built with my project group for eecs3311 "
+                "(software design) at york. it was a proper software-engineering exercise — clean architecture and "
+                "design patterns, not just features. i built several of the core features and helped shape the design."
+            ),
+            highlights=(
+                "written in java as a team, applying gang-of-four design patterns (including the adapter pattern)\n"
+                "built the goal-setting feature and the food-item swap engine\n"
+                "implemented nutrition statistics and graph visualisations\n"
+                "user-specific sessions and the user homepage\n"
+                "contributed across the codebase, with documentation throughout"
+            ),
+            detail=(
+                "## the project\n\n"
+                "nutrisci was a group project for eecs3311 (software design) — york's course on building software "
+                "*properly*: clean architecture, separation of concerns, and design patterns, not just getting "
+                "something to run.\n\n"
+                "## what i built\n\n"
+                "- the **goal-setting** feature — set and track nutrition goals\n"
+                "- a **food-item swap** engine — suggest healthier swaps for items in a meal\n"
+                "- **statistics + graphs** to visualise nutrition over time\n"
+                "- user-specific **sessions** and the user homepage\n"
+                "- applied the **adapter pattern** (among others) to keep the design clean\n\n"
+                "## what i took from it\n\n"
+                "this is the project that taught me to think about *design* — patterns, structure, and writing code a "
+                "team can actually work in — not just shipping features.\n\n"
+                "## stack\n\n"
+                "java · object-oriented design · gof design patterns"
+            ),
+            category='other',
+            status='shipped',
             featured=False,
-            shipped_date=date(2024, 5, 1),
-            github_url='https://github.com/SA-Ahmed24/ToDo-Reminders-Project',
+            shipped_date=date(2025, 7, 1),
+            github_url='https://github.com/KevinDang12/NutriSci-Project',
             order=5,
         )
-        todo.tech_stack.set([tech_objs['Python'], tech_objs['FastAPI'], tech_objs['SQLAlchemy'], tech_objs['Pydantic']])
+        nutrisci.tech_stack.set([tech_objs['Java']])
+
+        # Wire up the AD-style promo videos (rendered with Remotion → media/projects/videos/<slug>.mp4)
+        import os
+        from django.conf import settings as _settings
+        for _p in Project.objects.all():
+            _vid = f'projects/videos/{_p.slug}.mp4'
+            if os.path.exists(os.path.join(_settings.MEDIA_ROOT, _vid)):
+                _p.promo_video = _vid
+                _p.save(update_fields=['promo_video'])
 
         self.stdout.write('Seeding awards...')
         Award.objects.all().delete()

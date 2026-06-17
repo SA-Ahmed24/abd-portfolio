@@ -325,4 +325,23 @@ Polish from QA + code-review:
 
 ---
 
+## 13. Post-launch revisions — June 17
+
+### Stadium stands — rebuilt
+- Replaced the old CSS-grid pixel fans (didn't read as recognisable) with a **`<canvas>` stadium** in `static/js/pixel-fans.js`.
+- Renders **hundreds of fans** across 9 raked, perspective tiers (smaller/dimmer at back) — a packed, sold-out crowd.
+- Fans are recognisable by team colour + the merch they hold: **Pakistan** flag, **Blue Jays** cap + sign, **Raptors** basketball, **Liverpool** scarf, **Federer** racket. Crowd weighted toward Abdullah's teams.
+- **Live animation**: rolling stadium "wave" (fans stand + raise), idle bob, random cheers, flapping flags/scarves. Pre-rendered sprite frames → 60fps, performant. Respects `prefers-reduced-motion` (static paint). Defers first paint until scrolled into view.
+- Stadium structure baked in: roof beam, floodlight rigs, tiered seat bands, aisle steps, team-coloured ad hoardings, sliver of green field. Always a "night match" so it looks good in light + dark.
+- Verified: desktop light/dark, mobile, animating, no console errors.
+
+### Projects — researched + rewritten
+- Reviewed every repo on github.com/SA-Ahmed24; shortlisted 5 (skipped GuessTheNum, Tic-Tac-Toe as too basic).
+- Rewrote each project's description + added a **`highlights`** field (new model field + migration `0002`) — technical bullets shown in the card, accurate to the actual source code.
+- Reordered to lead with the flagships: **Agent Twin** (AI — Gemini, RAG memory, ElevenLabs voice) → **SquadHub** → Movie Review Site → Library Management System → ToDo/Reminders.
+- Detail (case-study) pages rewritten as markdown; render correctly.
+- Empty preview boxes replaced with a **faux app-window mock** (traffic lights, repo handle, category, name, stack) until real screenshots are uploaded via admin (`cover_image` overrides it).
+
+---
+
 *This document is the source of truth for the build. Updated as decisions are made.*
