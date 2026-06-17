@@ -1,6 +1,27 @@
 import React from "react";
 import { Composition } from "remotion";
 import { Ad } from "./Ad";
+import { LaunchTrailer } from "./LaunchTrailer";
+
+// Product-launch trailers (real product screenshots + voice-over + music).
+export const LAUNCH = [
+  {
+    slug: "rentez",
+    title: "RentEz",
+    tagline: "screen tenants before a bad one costs you.",
+    problem: "a single bad tenant can cost a landlord thousands.",
+    url: "renty.app/tenants",
+    vo: "audio/rentez-vo.wav",
+    accent: "#01411c",
+    accent2: "#d97706",
+    shots: [
+      { src: "footage/rentez/dashboard.png", cap: "search a database of real tenants" },
+      { src: "footage/rentez/tenant_profile.png", cap: "ratings backed by credit + bankruptcy data" },
+      { src: "footage/rentez/leave_review.png", cap: "verified, multi-criteria reviews" },
+      { src: "footage/rentez/tenant_outreach.png", cap: "reach out to tenants in good standing" },
+    ],
+  },
+];
 
 // One parameterized AD composition per project. Render with:
 //   npx remotion render src/index.ts ad-<slug> out/<slug>.mp4
@@ -106,6 +127,18 @@ export const RemotionRoot: React.FC = () => {
           id={`ad-${p.slug}`}
           component={Ad as any}
           durationInFrames={450}
+          fps={30}
+          width={1024}
+          height={768}
+          defaultProps={p as any}
+        />
+      ))}
+      {LAUNCH.map((p) => (
+        <Composition
+          key={p.slug}
+          id={`launch-${p.slug}`}
+          component={LaunchTrailer as any}
+          durationInFrames={600}
           fps={30}
           width={1024}
           height={768}
