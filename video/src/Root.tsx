@@ -142,7 +142,7 @@ export const RemotionRoot: React.FC = () => {
           key={p.slug}
           id={`launch-${p.slug}`}
           component={LaunchTrailer as any}
-          durationInFrames={1050}
+          durationInFrames={1130}
           fps={30}
           width={1024}
           height={768}
