@@ -8,17 +8,21 @@ export const LAUNCH = [
   {
     slug: "rentez",
     title: "RentEz",
-    tagline: "screen tenants before a bad one costs you.",
-    problem: "a single bad tenant can cost a landlord thousands.",
+    tagline: "rent with confidence.",
+    problem: "every year, bad tenants cost landlords",
+    problemKey: "billions.",
+    whatis: "a tenant-screening platform — vet and review tenants before they ever sign a lease.",
+    tech: ["React", "Node", "PostgreSQL", "Auth0"],
+    role: "my part: the tenant-creation flow + bug fixes",
     url: "renty.app/tenants",
     vo: "audio/rentez-vo.wav",
     accent: "#01411c",
     accent2: "#d97706",
     shots: [
-      { src: "footage/rentez/dashboard.png", cap: "search a database of real tenants" },
-      { src: "footage/rentez/tenant_profile.png", cap: "ratings backed by credit + bankruptcy data" },
-      { src: "footage/rentez/leave_review.png", cap: "verified, multi-criteria reviews" },
-      { src: "footage/rentez/tenant_outreach.png", cap: "reach out to tenants in good standing" },
+      { src: "footage/rentez/dashboard.png", section: "search", cap: "Search a database of real tenants by name, area, or rating.", fx: 0.5, fy: 0.33 },
+      { src: "footage/rentez/tenant_profile.png", section: "verified data", cap: "Ratings backed by real credit + bankruptcy data — not just opinions.", fx: 0.5, fy: 0.4 },
+      { src: "footage/rentez/leave_review.png", section: "reviews", cap: "Score rent, communication & property care — with lease docs as proof.", fx: 0.5, fy: 0.42 },
+      { src: "footage/rentez/tenant_outreach.png", section: "outreach", cap: "Found a great tenant? Send a rental offer right from the app.", fx: 0.5, fy: 0.4 },
     ],
   },
 ];
@@ -138,7 +142,7 @@ export const RemotionRoot: React.FC = () => {
           key={p.slug}
           id={`launch-${p.slug}`}
           component={LaunchTrailer as any}
-          durationInFrames={600}
+          durationInFrames={1050}
           fps={30}
           width={1024}
           height={768}
