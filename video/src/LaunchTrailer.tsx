@@ -104,7 +104,7 @@ export const LaunchTrailer: React.FC<any> = (props) => {
 
       {/* audio */}
       <Sequence from={18}><Audio src={staticFile(vo)} /></Sequence>
-      <Audio src={staticFile("audio/music.wav")} volume={(f) => interpolate(f, [0, 40, total - 55, total], [0, 0.18, 0.18, 0], clamp)} />
+      <Audio src={staticFile("audio/music.wav")} volume={(f) => interpolate(f, [0, 40, total - 55, total], [0, 0.34, 0.34, 0], clamp)} />
       <Sequence from={0}><Audio src={staticFile("audio/riser.wav")} volume={0.5} /></Sequence>
       {[P, W, ...shots.map((_: any, i: number) => shotsStart + i * shotLen), techStart, outroStart].map((fr, i) => (
         <Sequence key={i} from={fr - 6}><Audio src={staticFile("audio/whoosh.wav")} volume={0.4} /></Sequence>
