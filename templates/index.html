@@ -98,89 +98,90 @@
   </div>
 </section>
 
-<!-- ============ EXPERIENCE — F1 ============ -->
+<!-- ============ EXPERIENCE — F1 STARTING GRID ============ -->
 <section class="experience" id="work">
   <div class="container-wide">
-    <h2 class="section-heading" data-reveal>the <em>race</em> so far.</h2>
-    <p class="section-sub" data-reveal>my career, mapped onto the marina bay circuit. (singapore — fitting, no?)</p>
+    <h2 class="section-heading" data-reveal>career — <em>lights out</em>.</h2>
+    <p class="section-sub" data-reveal>the grid so far. pole position is wherever i'm racing right now.</p>
 
-    <div class="track-toggle" data-reveal>
-      <button class="active" data-mode="track">◐ Track View</button>
-      <button data-mode="pov">◉ POV (drive)</button>
-    </div>
-
-    <div class="track-container" id="f1-track">
-      <div class="track-info">
-        ◉ MARINA BAY ST. CIRCUIT<br>
-        ◉ LAP {{ experiences|length }}/{{ experiences|length }} — CAREER<br>
-        ◉ LIVE: P1 ONTARIO MOT
+    <div class="f1grid" data-reveal>
+      <!-- ===== timing tower ===== -->
+      <div class="f1grid-tower">
+        <span class="f1grid-tower-dot" aria-hidden="true"></span>
+        <span class="f1grid-tower-txt">GRID · CAREER GP — {{ experiences|length }} ON THE GRID</span>
+        <span class="f1grid-tower-status" id="f1grid-status">FORMATION</span>
       </div>
 
-      <svg class="track-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
-        {# Outer dark track #}
-        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
-              id="trackPath"
-              fill="none" stroke="#444" stroke-width="50" stroke-linejoin="round"/>
-        {# Lighter inner #}
-        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
-              fill="none" stroke="#888" stroke-width="46" stroke-linejoin="round"/>
-        {# Center dashed line #}
-        <path d="M 200 700 L 200 500 Q 200 400 300 400 L 500 400 Q 600 400 600 500 L 600 600 L 800 600 Q 900 600 900 500 L 900 350 Q 900 250 1000 250 L 1200 250 Q 1300 250 1300 350 L 1300 500 Q 1300 600 1200 600 L 1100 600 Q 1050 600 1050 650 L 1050 750 Q 1050 800 1000 800 L 250 800 Q 200 800 200 750 Z"
-              fill="none" stroke="#ddd" stroke-width="1" stroke-dasharray="8 12" stroke-linejoin="round"/>
+      <!-- ===== the track stage (asphalt + canvas + grid + pits) ===== -->
+      <div class="f1grid-stage" id="f1-grid-stage">
 
-        {# Checkerboard start/finish #}
-        <pattern id="checkerboard" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-          <rect width="10" height="10" fill="#fff"/>
-          <rect x="10" y="10" width="10" height="10" fill="#fff"/>
-          <rect x="10" width="10" height="10" fill="#000"/>
-          <rect y="10" width="10" height="10" fill="#000"/>
-        </pattern>
-        <rect x="195" y="780" width="50" height="40" fill="url(#checkerboard)"/>
-        <text x="250" y="855" fill="#888" font-family="JetBrains Mono" font-size="11">START / FINISH</text>
-      </svg>
-
-      {% for exp in experiences %}
-        <div class="track-marker {% if exp.is_current %}active{% endif %}"
-             style="top: {{ exp.track_y_pct }}%; left: {{ exp.track_x_pct }}%;"
-             data-position="{{ exp.f1_position }}">
-          <div class="track-marker-label">P{{ exp.f1_position }} // {{ exp.company|truncatechars:18|upper }}</div>
+        <!-- start gantry: 5 light columns -->
+        <div class="f1grid-gantry" id="f1-lights" role="img" aria-label="F1 start lights">
+          <div class="f1grid-gantry-arm"></div>
+          {% for i in "12345" %}
+            <div class="f1grid-light" data-lit="0">
+              <span class="f1grid-bulb"></span>
+              <span class="f1grid-bulb"></span>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
 
-      <div class="f1-car" id="f1-car"></div>
+        <!-- asphalt: kerbs + start/finish + canvas + grid slots -->
+        <div class="f1grid-asphalt">
+          <div class="f1grid-kerb f1grid-kerb--left" aria-hidden="true"></div>
+          <div class="f1grid-kerb f1grid-kerb--right" aria-hidden="true"></div>
+          <div class="f1grid-startline" aria-hidden="true"></div>
+          <div class="f1grid-startlabel">START / FINISH</div>
+
+          <!-- ambient pixel cars render here -->
+          <canvas id="f1-grid-canvas" class="f1grid-canvas" aria-hidden="true"></canvas>
+
+          <!-- staggered grid slots: one per experience -->
+          <div class="f1grid-slots">
+            {% for exp in experiences %}
+              <article class="f1grid-slot{% if exp.is_current %} is-pole{% endif %}"
+                       tabindex="0"
+                       data-pos="{{ exp.f1_position }}"
+                       aria-label="P{{ exp.f1_position }} — {{ exp.title }} at {{ exp.company }}">
+                <div class="f1grid-marker" aria-hidden="true">
+                  <span class="f1grid-marker-num">P{{ exp.f1_position }}</span>
+                </div>
+                <div class="f1grid-card">
+                  <div class="f1grid-card-head">
+                    <span class="f1grid-card-pos">P{{ exp.f1_position }}</span>
+                    {% if exp.is_current %}<span class="f1grid-card-flag f1grid-card-flag--pole">POLE · LIVE</span>{% endif %}
+                    <span class="f1grid-card-date">{{ exp.date_range|upper }}</span>
+                  </div>
+                  <h3 class="f1grid-card-role">{{ exp.title }}</h3>
+                  <div class="f1grid-card-team">{{ exp.company }}{% if exp.location %} <span class="f1grid-card-loc">· {{ exp.location }}</span>{% endif %}</div>
+                  <p class="f1grid-card-desc">{{ exp.description }}</p>
+                  <span class="f1grid-card-hint">read stint →</span>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- ===== pit lane (right) ===== -->
+        <div class="f1grid-pit" aria-label="Pit lane">
+          <div class="f1grid-pit-label">PIT LANE</div>
+          <div class="f1grid-pit-limit">60</div>
+          <div class="f1grid-pit-boxes">
+            <div class="f1grid-pit-box" id="f1-pit-1"><span class="f1grid-pit-num">P1</span></div>
+            <div class="f1grid-pit-box" id="f1-pit-2"><span class="f1grid-pit-num">P2</span></div>
+            <div class="f1grid-pit-box" id="f1-pit-3"><span class="f1grid-pit-num">P3</span></div>
+          </div>
+          <div class="f1grid-pit-wall" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="f1grid-footnote">
+        <span>◉ tap a box for the full stint</span>
+        <span class="f1grid-footnote-go" id="f1-grid-go">▮▮▮▮▮ lights out &amp; away we go</span>
+      </div>
     </div>
-
-    <div class="pov-card" id="pov-card">
-      {% if current_experience %}
-        {% with exp=current_experience %}
-        <div class="pov-position">
-          <div class="pov-position-num">P{{ exp.f1_position }}</div>
-          <div class="pov-position-label">CURRENT</div>
-        </div>
-        <div>
-          <div class="pov-role">{{ exp.title }}</div>
-          <div class="pov-company">{{ exp.company }}</div>
-          <div class="pov-date">{{ exp.date_range|upper }}{% if exp.location %} // {{ exp.location|upper }}{% endif %}</div>
-          <div class="pov-text">{{ exp.description }}</div>
-        </div>
-        {% endwith %}
-      {% else %}
-        <div style="grid-column: 1 / -1; text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--ink-soft);">
-          ⏳ no current position set — visit /admin to mark one as `is_current`
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="pov-controls" id="pov-controls" style="display:none;">
-      <button class="pov-btn" data-pov="prev">⬅ prev lap</button>
-      <button class="pov-btn active" data-pov="drive">drive ▶</button>
-      <button class="pov-btn" data-pov="next">next lap ➡</button>
-    </div>
-
-    {# Inject experience data for the F1 JS (safely escaped) #}
-    {% load experience_tags %}
-    {% experiences_data experiences as exp_data %}
-    {{ exp_data|json_script:"experiences-data" }}
   </div>
 </section>
 

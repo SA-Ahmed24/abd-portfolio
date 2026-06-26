@@ -1,2 +1,533 @@
-/* f1-grid.css — styles for the F1 starting-grid experience section.
-   Filled in by the experience-grid build (see PLAN_EXPERIENCE_GRID.md). */
+/* =================================================================
+   f1-grid.css — Experience section as a pixel-art F1 STARTING GRID.
+   Start-lights gantry, staggered grid slots (one per role), a pit
+   lane with garage boxes, kerbs + checkered start/finish line.
+   Cars are drawn on <canvas> by f1-grid.js (overlay on the asphalt).
+   On-brand cream/green/gold + Press Start 2P accents.
+   ================================================================= */
+
+.f1grid {
+  --asphalt:      #2a2a2e;
+  --asphalt-2:    #232327;
+  --asphalt-line: rgba(255, 255, 255, 0.16);
+  --kerb-a:       #c8102e;
+  --kerb-b:       #f4f1e6;
+  --grid-green:   var(--pak-green);
+  --grid-gold:    var(--gold);
+  --pit-floor:    #1d1d20;
+
+  position: relative;
+  margin-top: 8px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 10px 10px 0 rgba(1, 65, 28, 0.10);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .f1grid {
+  background: var(--paper-3);
+  box-shadow: 10px 10px 0 rgba(232, 185, 35, 0.10);
+}
+
+/* ---------------- timing tower (top strip) ---------------- */
+.f1grid-tower {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--gold);
+}
+
+[data-theme="dark"] .f1grid-tower { color: var(--ink); background: #050505; }
+
+.f1grid-tower-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--kerb-a);
+  box-shadow: 0 0 8px var(--kerb-a);
+  animation: f1grid-blink 1.4s steps(2, start) infinite;
+}
+.f1grid-tower-txt { flex: 1; opacity: 0.92; }
+.f1grid-tower-status {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+@keyframes f1grid-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { .f1grid-tower-dot { animation: none; } }
+
+/* ---------------- the stage: gantry + asphalt + pit ---------------- */
+.f1grid-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 124px;
+  gap: 0;
+  background:
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.04) 0 6px, transparent 6px 12px),
+    var(--paper-2);
+  padding: 64px 18px 22px;
+}
+
+[data-theme="dark"] .f1grid-stage {
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 6px, transparent 6px 12px),
+    var(--paper-2);
+}
+
+/* ===== start-lights gantry ===== */
+.f1grid-gantry {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: 7px;
+  padding: 8px 12px 9px;
+  background: #0c0c0e;
+  border: 2px solid #000;
+  border-radius: 6px;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.06);
+}
+/* the support bar dropping from the gantry frame */
+.f1grid-gantry-arm {
+  position: absolute;
+  top: -12px; left: 50%;
+  width: 10px; height: 12px;
+  transform: translateX(-50%);
+  background: #0c0c0e;
+  border: 2px solid #000; border-bottom: none;
+}
+
+.f1grid-light {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px 4px;
+  background: #050505;
+  border-radius: 3px;
+}
+.f1grid-bulb {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: #2a0606;                       /* dark/unlit red */
+  box-shadow: inset 0 0 0 2px #000, inset 0 -2px 2px rgba(0,0,0,0.6);
+  transition: background 90ms linear, box-shadow 90ms linear;
+}
+.f1grid-light[data-lit="1"] .f1grid-bulb {
+  background: #ff1f1f;
+  box-shadow: inset 0 0 0 2px #7a0000, 0 0 10px 2px rgba(255,40,40,0.85);
+}
+@media (max-width: 560px) {
+  .f1grid-bulb { width: 11px; height: 11px; }
+  .f1grid-light { gap: 4px; }
+}
+
+/* ===== asphalt (left, holds canvas + grid slots) ===== */
+.f1grid-asphalt {
+  position: relative;
+  min-height: 540px;
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    /* faint centre + lane guides */
+    linear-gradient(90deg, transparent 49.4%, var(--asphalt-line) 49.4%, var(--asphalt-line) 50.6%, transparent 50.6%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 60px),
+    linear-gradient(180deg, var(--asphalt) 0%, var(--asphalt-2) 100%);
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.45), inset 0 0 0 2px rgba(0,0,0,0.4);
+}
+
+/* kerbs down both edges */
+.f1grid-kerb {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 12px;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    180deg, var(--kerb-a) 0 14px, var(--kerb-b) 14px 28px);
+  opacity: 0.92;
+}
+.f1grid-kerb--left  { left: 0;  box-shadow: 2px 0 6px rgba(0,0,0,0.4); }
+.f1grid-kerb--right { right: 0; box-shadow: -2px 0 6px rgba(0,0,0,0.4); }
+
+/* checkered start / finish line (vertical, near the front of the grid) */
+.f1grid-startline {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 21%;
+  width: 26px;
+  z-index: 2;
+  background:
+    repeating-conic-gradient(#f4f1e6 0% 25%, #18181a 0% 50%) 0 0 / 13px 13px;
+  opacity: 0.9;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+}
+.f1grid-startlabel {
+  position: absolute;
+  bottom: 8px; left: 21%;
+  transform: translateX(8px);
+  z-index: 3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: rgba(244,241,230,0.7);
+  white-space: nowrap;
+}
+
+/* canvas overlay (cars) — sits above asphalt art, below the slots */
+.f1grid-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ===== the grid slots (staggered like a real F1 grid) ===== */
+.f1grid-slots {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 26px;
+  padding: 18px 26px 20px 56px;   /* leave room past the start/finish line */
+  align-items: start;
+}
+/* stagger the right column down so P2/P4 sit "behind" P1/P3 */
+.f1grid-slots > .f1grid-slot:nth-child(even) { margin-top: 46px; }
+
+.f1grid-slot {
+  position: relative;
+  display: block;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  padding-left: 30px;     /* room for the painted grid box number */
+}
+
+/* painted grid-box marker (the "P# box" on the tarmac) */
+.f1grid-marker {
+  position: absolute;
+  top: 0; left: 0;
+  width: 24px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(244,241,230,0.85);
+  border-radius: 2px;
+  background: rgba(0,0,0,0.28);
+}
+.f1grid-marker-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: rgba(244,241,230,0.92);
+}
+.is-pole .f1grid-marker {
+  border-color: var(--grid-gold);
+  background: rgba(232,185,35,0.16);
+}
+.is-pole .f1grid-marker-num { color: var(--grid-gold); }
+
+/* the card itself */
+.f1grid-card {
+  position: relative;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  padding: 13px 15px 14px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.18);
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1),
+              box-shadow 180ms ease, border-color 180ms ease;
+}
+[data-theme="dark"] .f1grid-card { background: #1a1712; }
+
+.is-pole .f1grid-card {
+  border-color: var(--grid-green);
+  box-shadow: 4px 4px 0 rgba(1,65,28,0.22);
+}
+[data-theme="dark"] .is-pole .f1grid-card {
+  border-color: var(--grid-gold);
+  box-shadow: 4px 4px 0 rgba(232,185,35,0.22);
+}
+
+.f1grid-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
+}
+.f1grid-card-pos {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--gold-dark);
+  letter-spacing: 0.5px;
+}
+[data-theme="dark"] .f1grid-card-pos { color: var(--gold); }
+.is-pole .f1grid-card-pos { color: var(--grid-green); }
+[data-theme="dark"] .is-pole .f1grid-card-pos { color: var(--gold); }
+
+.f1grid-card-flag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--grid-green);
+  color: var(--paper);
+}
+.f1grid-card-flag--pole { background: var(--grid-green); color: #fff; }
+[data-theme="dark"] .f1grid-card-flag--pole { background: var(--grid-gold); color: #14110d; }
+
+.f1grid-card-date {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: var(--ink-light);
+}
+
+.f1grid-card-role {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 3px;
+}
+.f1grid-card-team {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold-dark);
+  margin-bottom: 2px;
+}
+[data-theme="dark"] .f1grid-card-team { color: var(--gold); }
+.f1grid-card-loc { color: var(--ink-light); font-style: normal; font-size: 13px; }
+
+/* description = the "race card" — collapsed until hover/focus/open */
+.f1grid-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 280ms cubic-bezier(.2,.8,.2,1),
+              opacity 220ms ease, margin-top 280ms ease;
+}
+.f1grid-card-hint {
+  display: inline-block;
+  margin-top: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--gold-dark);
+  opacity: 0.85;
+  transition: opacity 180ms ease;
+}
+[data-theme="dark"] .f1grid-card-hint { color: var(--gold); }
+
+/* reveal on hover / keyboard focus / click-open */
+.f1grid-slot:hover .f1grid-card,
+.f1grid-slot:focus-visible .f1grid-card,
+.f1grid-slot.is-open .f1grid-card {
+  transform: translate(-2px, -3px);
+  box-shadow: 7px 8px 0 rgba(1,65,28,0.18);
+}
+[data-theme="dark"] .f1grid-slot:hover .f1grid-card,
+[data-theme="dark"] .f1grid-slot:focus-visible .f1grid-card,
+[data-theme="dark"] .f1grid-slot.is-open .f1grid-card {
+  box-shadow: 7px 8px 0 rgba(232,185,35,0.20);
+}
+
+.f1grid-slot:hover .f1grid-card-desc,
+.f1grid-slot:focus-visible .f1grid-card-desc,
+.f1grid-slot.is-open .f1grid-card-desc {
+  max-height: 280px;
+  opacity: 1;
+  margin-top: 8px;
+}
+.f1grid-slot:hover .f1grid-card-hint,
+.f1grid-slot:focus-visible .f1grid-card-hint,
+.f1grid-slot.is-open .f1grid-card-hint { opacity: 0; }
+
+.f1grid-slot:focus-visible .f1grid-card { outline: 2px dashed var(--gold-dark); outline-offset: 3px; }
+
+/* ===== pit lane (right column) ===== */
+.f1grid-pit {
+  position: relative;
+  margin-left: 10px;
+  border-left: 3px dashed rgba(244,241,230,0.5);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 2px, transparent 2px 40px),
+    linear-gradient(180deg, var(--pit-floor), #131316);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px 14px;
+  gap: 10px;
+}
+.f1grid-pit-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1.5;
+}
+.f1grid-pit-limit {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  background: var(--kerb-a);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.4);
+}
+.f1grid-pit-boxes {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 12px;
+  padding: 4px 0;
+}
+.f1grid-pit-box {
+  position: relative;
+  height: 64px;
+  border: 2px dashed rgba(244,241,230,0.55);
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(45deg, rgba(232,185,35,0.10) 0 8px, transparent 8px 16px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.f1grid-pit-box::after {           /* garage roof tab */
+  content: '';
+  position: absolute;
+  top: -7px; left: 50%;
+  transform: translateX(-50%);
+  width: 70%; height: 5px;
+  background: var(--gold-dark);
+  border-radius: 2px 2px 0 0;
+}
+.f1grid-pit-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: rgba(244,241,230,0.75);
+  padding: 4px 5px;
+}
+.f1grid-pit-wall {
+  display: flex;
+  gap: 6px;
+  padding-top: 2px;
+}
+.f1grid-pit-wall span {
+  width: 8px; height: 12px;
+  background: linear-gradient(180deg, #444, #222);
+  border: 1px solid #000;
+  border-radius: 1px;
+}
+
+/* ---------------- footnote ---------------- */
+.f1grid-footnote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 11px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.5px;
+  border-top: 2px solid var(--gold);
+}
+[data-theme="dark"] .f1grid-footnote { color: var(--ink); background: #050505; }
+.f1grid-footnote-go { color: var(--gold); font-weight: 700; }
+
+/* =================================================================
+   RESPONSIVE
+   ================================================================= */
+@media (max-width: 900px) {
+  .f1grid-stage { grid-template-columns: 1fr 88px; padding-top: 60px; }
+  .f1grid-slots { padding: 16px 18px 18px 46px; gap: 16px 18px; }
+  .f1grid-card-role { font-size: 17px; }
+  .f1grid-pit { margin-left: 6px; }
+  .f1grid-pit-box { height: 52px; }
+}
+
+@media (max-width: 680px) {
+  /* drop to a single staggered column; tuck the pit lane underneath */
+  .f1grid-stage {
+    display: block;
+    padding: 58px 12px 16px;
+  }
+  .f1grid-asphalt { min-height: 0; }
+  .f1grid-slots {
+    grid-template-columns: 1fr;
+    padding: 16px 14px 18px 44px;
+    gap: 14px;
+  }
+  .f1grid-slots > .f1grid-slot:nth-child(even) { margin-top: 0; }
+  .f1grid-startline, .f1grid-startlabel { display: none; }
+
+  .f1grid-pit {
+    margin: 12px 0 0;
+    border-left: none;
+    border-top: 3px dashed rgba(244,241,230,0.5);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px;
+  }
+  .f1grid-pit-boxes {
+    flex-direction: row;
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+  .f1grid-pit-box { flex: 1; height: 46px; }
+  .f1grid-pit-box::after { width: 50%; }
+
+  /* on small screens, always show the description (no hover) */
+  .f1grid-card-desc { max-height: 320px; opacity: 1; margin-top: 8px; }
+  .f1grid-card-hint { display: none; }
+}
+
+@media (max-width: 420px) {
+  .f1grid-tower-txt { font-size: 9px; }
+  .f1grid-tower-status { font-size: 7px; }
+  .f1grid-card-date { font-size: 8px; }
+}
+
+/* =================================================================
+   REDUCED MOTION — keep it crisp + static
+   ================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .f1grid-card,
+  .f1grid-card-desc,
+  .f1grid-card-hint,
+  .f1grid-bulb { transition: none; }
+}
