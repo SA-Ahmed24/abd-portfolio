@@ -67,9 +67,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Award)
 class AwardAdmin(admin.ModelAdmin):
-    list_display = ('name', 'level', 'year', 'featured', 'order')
-    list_editable = ('featured', 'order', 'level')
-    list_filter = ('level', 'featured')
+    list_display = ('name', 'period', 'level', 'year', 'featured', 'order')
+    list_editable = ('period', 'featured', 'order', 'level')
+    list_filter = ('period', 'level', 'featured')
     search_fields = ('name', 'description')
 
 

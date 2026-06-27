@@ -31,6 +31,9 @@ def home(request):
     tech_frameworks = Tech.objects.filter(category='framework')
     tech_tools = Tech.objects.filter(category='tool')
     awards = Award.objects.filter(featured=True)
+    awards_highschool = awards.filter(period='highschool')
+    awards_university = awards.filter(period='university')
+    awards_beyond = awards.filter(period='beyond')
     movies = MovieFavorite.objects.all()
     drivers = F1Driver.objects.all()
     passions = Passion.objects.all()
@@ -47,6 +50,9 @@ def home(request):
         'tech_frameworks': tech_frameworks,
         'tech_tools': tech_tools,
         'awards': awards,
+        'awards_highschool': awards_highschool,
+        'awards_university': awards_university,
+        'awards_beyond': awards_beyond,
         'movies': movies,
         'drivers': drivers,
         'passions': passions,

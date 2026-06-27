@@ -427,19 +427,25 @@ class Command(BaseCommand):
 
         self.stdout.write('Seeding awards...')
         Award.objects.all().delete()
+        # period: pre-2023 → highschool, 2023+ → university (none beyond yet).
         awards_data = [
-            ('UNHack 2024', '1st Place — Team Hack', 2024, 'international', '🏆', 1),
-            ('Kangaroo CS — Silver', '1st Lahore, 4th in Pakistan', 2021, 'national', '🥈', 2),
-            ('Duke of Edinburgh', 'Bronze — International', 2021, 'international', '🎖', 3),
-            ('Lassonde Scholarship', 'York University Entrance', 2023, 'school', '🎓', 4),
-            ('Academic Blazer', 'IGCSE Merit — Aitchison College', 2021, 'school', '🎯', 5),
-            ('MUN Outstanding Diplomacy', 'Millennium Int\'l — WHO Committee', 2021, 'international', '🗣', 6),
-            ('Sigma LUMS', '1st — Geometry & Math Proofs', 2021, 'national', '∑', 7),
-            ('Cricketer of the Year', 'Tanglin Trust — Singapore', 2016, 'school', '🏏', 8),
-            ('Care Foundation', 'Outstanding Performance Award', 2019, 'school', '🤝', 9),
+            # name, description, year, level, icon, period, order
+            ('UNHack 2024', '1st Place — Team Hack', 2024, 'international', '🏆', 'university', 1),
+            ('UmmahHacks 2026', '2nd Place — 36hr Hackathon', 2026, 'international', '🥈', 'university', 2),
+            ('Lassonde Scholarship', 'York University Entrance', 2023, 'school', '🎓', 'university', 3),
+            ('Kangaroo CS — Silver', '1st Lahore, 4th in Pakistan', 2021, 'national', '🥈', 'highschool', 4),
+            ('Duke of Edinburgh', 'Bronze — International', 2021, 'international', '🎖', 'highschool', 5),
+            ('Academic Blazer', 'IGCSE Merit — Aitchison College', 2021, 'school', '🎯', 'highschool', 6),
+            ('MUN Outstanding Diplomacy', 'Millennium Int\'l — WHO Committee', 2021, 'international', '🗣', 'highschool', 7),
+            ('Sigma LUMS', '1st — Geometry & Math Proofs', 2021, 'national', '∑', 'highschool', 8),
+            ('Care Foundation', 'Outstanding Performance Award', 2019, 'school', '🤝', 'highschool', 9),
+            ('Cricketer of the Year', 'Tanglin Trust — Singapore', 2016, 'school', '🏏', 'highschool', 10),
         ]
-        for name, desc, year, level, icon, order in awards_data:
-            Award.objects.create(name=name, description=desc, year=year, level=level, icon=icon, order=order)
+        for name, desc, year, level, icon, period, order in awards_data:
+            Award.objects.create(
+                name=name, description=desc, year=year, level=level,
+                icon=icon, period=period, order=order,
+            )
 
         self.stdout.write('Seeding movies & F1 drivers...')
         MovieFavorite.objects.all().delete()

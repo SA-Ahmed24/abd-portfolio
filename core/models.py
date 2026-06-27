@@ -206,10 +206,21 @@ class Award(models.Model):
         ('school', 'School'),
         ('regional', 'Regional'),
     ]
+    PERIOD_CHOICES = [
+        ('highschool', 'High School'),
+        ('university', 'University'),
+        ('beyond', 'Beyond'),
+    ]
     name = models.CharField(max_length=120)
     description = models.CharField(max_length=200, blank=True, help_text='Short caption')
     year = models.IntegerField(blank=True, null=True)
     level = models.CharField(max_length=20, choices=LEVEL_CHOICES, default='national')
+    period = models.CharField(
+        max_length=20,
+        choices=PERIOD_CHOICES,
+        default='university',
+        help_text='Which trophy cabinet this sits in.',
+    )
     icon = models.CharField(max_length=10, default='🏆', help_text='Emoji icon')
     featured = models.BooleanField(default=True, help_text='Show on main page grid')
     order = models.IntegerField(default=0)

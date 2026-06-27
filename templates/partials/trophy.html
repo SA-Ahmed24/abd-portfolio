@@ -1,0 +1,19 @@
+{% comment %}
+  One trophy/medal/figure on a plinth, with a hover/focus tooltip.
+  Figure shape + metal tint are chosen from the award name so each piece
+  correlates to its achievement. Expects: award.
+{% endcomment %}
+{% with n=award.name|lower %}
+  {% if 'unhack' in n %}{% with sym='fig-cup' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'ummah' in n %}{% with sym='fig-codecup' metal='silver' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'lassonde' in n or 'scholar' in n %}{% with sym='fig-cap' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'kangaroo' in n %}{% with sym='fig-medal' metal='silver' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'edinburgh' in n %}{% with sym='fig-badge' metal='bronze' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'blazer' in n or 'academic' in n %}{% with sym='fig-shield' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'mun' in n or 'diplomacy' in n %}{% with sym='fig-globe' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'sigma' in n or 'math' in n %}{% with sym='fig-sigma' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'care' in n %}{% with sym='fig-hands' metal='silver' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% elif 'cricket' in n %}{% with sym='fig-cricket' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% else %}{% with sym='fig-cup' metal='gold' %}{% include "partials/_trophy_inner.html" %}{% endwith %}
+  {% endif %}
+{% endwith %}

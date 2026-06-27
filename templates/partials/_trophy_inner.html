@@ -1,0 +1,23 @@
+{% comment %} Inner: expects sym (symbol id), metal (gold|silver|bronze), award {% endcomment %}
+<div class="trophy trophy--{{ metal }}" tabindex="0"
+     aria-label="{{ award.name }}{% if award.description %} — {{ award.description }}{% endif %}{% if award.year %} ({{ award.year }}){% endif %}">
+  <div class="trophy-stage">
+    <svg class="trophy-fig" viewBox="0 0 100 130" role="img" aria-hidden="true">
+      <use href="#{{ sym }}"></use>
+    </svg>
+    <span class="trophy-glow" aria-hidden="true"></span>
+  </div>
+  <div class="plinth">
+    <span class="plinth-label">{{ award.name }}</span>
+  </div>
+  <div class="trophy-tip" role="tooltip">
+    <span class="tip-name">{{ award.name }}</span>
+    <span class="tip-meta">
+      {% if award.description %}<span class="tip-place">{{ award.description }}</span>{% endif %}
+      <span class="tip-foot">
+        <span class="tip-level">{{ award.get_level_display }}</span>
+        {% if award.year %}<span class="tip-year">{{ award.year }}</span>{% endif %}
+      </span>
+    </span>
+  </div>
+</div>
